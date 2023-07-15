@@ -1,5 +1,8 @@
 # Lockra1n
 
+Please note: I was not able to upload the app file onto this repository because GitHub said the file size was too big.
+Please download it from here: https://www.mediafire.com/file/d4tzmeidumqzkfn/Lockra1n-v2.0.zip/file
+
 This is an iCloud bypass tool that I coded in Python. To run this app, just double-click on the Lockra1n app file. 
 The app should open up! 
 
@@ -11,7 +14,7 @@ How to use Lockra1n:
 
 [3] Press the "Generate Activation Files" button. This generates the activation tickets for your device.
 
-[4] Press the "Bypass Device!" button and follow the steps in the tool. Start with your device in normal mode, then Enter DFU Mode when the tool asks you to. Then, the tool will boot the ramdisk and bypass the device.
+[4] Press the "Bypass Device!" button and follow the steps in the tool. Start with your device in normal mode, then enter DFU Mode when the tool asks you to. Then, the tool will boot the ramdisk and bypass the device.
 
 NOTE: You don't need to use the "Jailbreak the device" button. This function now built into the bypass function. Lockra1n used to bypass devices via normal mode, but now it bypasses your device via the ramdisk so a jailbreak is no longer needed.
 

@@ -8,7 +8,7 @@ The app should open up!
 
 How to use Lockra1n: 
 
-[1] Press the "Install Dependencies" button. This will make sure everything is ready to use with Lockra1n.
+[1] Press the "Install Dependencies" button. This will make sure everything is ready to use with Lockra1n. NOTE: You only need to do this once. I would not recommend doing this more than once.
 
 [2] Press the "Connect Device" button. Make sure you have connected your iCloud locked device to the computer. This will pair your device with the computer.
 

@@ -1,11 +1,14 @@
 # Lockra1n
 
-Please note: I was not able to upload the app file onto this repository because GitHub said the file size was too big.
-Please download it from here: https://www.mediafire.com/file/jxevbsoawarvf56/Lockra1n_v2.0_beta_%255BRELEASE%255D.zip/file
+Please note: I was not able to upload the app file directly onto this repository because GitHub doesn’t allow files bigger than 25 MB to be directly uploaded. Please see the Releases section for a full download.
+You can also directly download it from here: https://www.mediafire.com/file/jxevbsoawarvf56/Lockra1n_v2.0_beta_%255BRELEASE%255D.zip/file
+
 This is an iCloud bypass tool that I coded in Python. To run this app, just double-click on the Lockra1n app file. 
 The app should open up! 
 
 How to use Lockra1n: 
+
+VERY IMPORTANT! This is a beta. Do not get upset if it doesn't function perfectly, I am still working on it. Once I feel I have got the app to a manageable state, then I will officially release it on my website. Please be patient. For now, it will be on GitHub and MediaFire only.
 
 [1] Press the "Install Dependencies" button. This will make sure everything is ready to use with Lockra1n. NOTE: You only need to do this once. I would not recommend doing this more than once.
 

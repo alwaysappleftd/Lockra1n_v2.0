@@ -4,7 +4,8 @@ Please note: I was not able to upload the app file directly onto this repository
 I will be uploading an alternative link soon for MediaFire.
 
 This is an iCloud bypass tool that I coded in Python. To run this app, just double-click on the Lockra1n app file. 
-The app should open up! 
+The app should open up! If it says "Unidentified Developer" when you launch it, then just Right-click on the .app file and select "Open".
+This should allow you to bypass the "Unidentified Developer" message.
 
 How to use Lockra1n: 
 

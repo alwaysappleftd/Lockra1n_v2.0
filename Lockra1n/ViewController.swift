@@ -12,6 +12,7 @@ import UniformTypeIdentifiers
 import Foundation
 import UserNotifications
 import AppKit
+import SystemConfiguration
 
 class AlertManager {
     // Instead of using @Published, manually notify observers of changes
@@ -77,15 +78,19 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var prepareLockra1nRef: NSButton!
     
-    
-    
     @IBOutlet weak var searchDeviceRef: NSButton!
     
     @IBOutlet weak var genActRef: NSButton!
     
     @IBOutlet weak var bypassDeviceRef: NSButton!
     
+    @IBOutlet weak var bypassDeviceNormalMode: NSButton!
+    
     @IBOutlet weak var relockDeviceRef: NSButton!
+    
+    @IBOutlet weak var relockDeviceNormalModeRef: NSButton!
+    
+    @IBOutlet weak var moreOptionsText: NSTextField!
     
     @IBOutlet weak var manageRecoveryRef: NSButton!
     
@@ -217,14 +222,40 @@ class ViewController: NSViewController {
                 
                 if checkDeviceState == "Recovery" {
                     let deviceModel = self.iRecoveryInfo("NAME")
+                    self.genActRef.isEnabled = false
+                    self.relockDeviceRef.isEnabled = false
+                    self.relockDeviceNormalModeRef.isEnabled = false
+                    self.bypassDeviceRef.isEnabled = false
+                    self.bypassDeviceNormalMode.isEnabled = false
                     print("Found device in Recovery Mode!")
-                    self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in Normal Mode to continue. Restart the device out of Recovery Mode manually, then click the 'Search for Device' button again to check registration and generate activation tickets!")
+                    self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in Normal Mode to continue. Press OK to restart the device out of Recovery Mode, then click the 'Search for Device' button again to check registration and generate activation tickets!")
+                    let output1 = runTerminalCommand("\(resourcesPath)/futurerestore_194 --exit-recovery")
+                    print(output1)
+                    
+                    sleep(2)
+                    
+                    let alert3 = NSAlert()
+                    alert3.messageText = "Done!"
+                    alert3.informativeText = "Device should now be rebooting into Normal mode. Once you reach the Hello screen, click 'Search for Device' again to continue."
+                    alert3.addButton(withTitle: "OK")
+                    
+                    alert3.runModal()
                     return
                 } else if checkDeviceState == "DFU" {
+                    self.genActRef.isEnabled = false
+                    self.relockDeviceRef.isEnabled = false
+                    self.relockDeviceNormalModeRef.isEnabled = false
+                    self.bypassDeviceRef.isEnabled = false
+                    self.bypassDeviceNormalMode.isEnabled = false
                     print("Found device in DFU Mode!")
                     self.showAlert(message: "Device is in DFU Mode!", informativeText: "You must be in Normal Mode to continue. Restart the device out of DFU Mode manually, then click the 'Search for Device' button again to check registration and generate activation tickets!")
                     return
                 } else {
+                    self.genActRef.isEnabled = false
+                    self.relockDeviceRef.isEnabled = false
+                    self.relockDeviceNormalModeRef.isEnabled = false
+                    self.bypassDeviceRef.isEnabled = false
+                    self.bypassDeviceNormalMode.isEnabled = false
                     let alert3 = NSAlert()
                     alert3.messageText = "No device was found!"
                     alert3.informativeText = "Try disconnecting and reconnecting your device.\nIf that fails as well, try using a different USB cable, and ensure that if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter."
@@ -258,6 +289,7 @@ class ViewController: NSViewController {
                             let defaultVersion = "12.0"
                             self.genActRef.isEnabled = false
                             self.relockDeviceRef.isEnabled = false
+                            self.relockDeviceNormalModeRef.isEnabled = false
                             print("ERROR: iOS Version not supported!")
                             showAlert(message: "ERROR: Your device's iOS version is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.X.X")
                             return
@@ -346,6 +378,7 @@ class ViewController: NSViewController {
                         //print("Device iOS Version: \(iosVersion)")
                         self.genActRef.isEnabled = true
                         self.relockDeviceRef.isEnabled = true
+                        self.relockDeviceNormalModeRef.isEnabled = true
                         showAlert(message: "Found iDevice on iOS \(iosVersion)", informativeText: "You can now generate your activation tickets!")
                     } else {
                         //print("Failed to extract iOS version")
@@ -730,7 +763,7 @@ class ViewController: NSViewController {
             print("Failed to find the main bundle's resource path")
             return
         }
-
+        
         let checkDeviceConnected = self.iRecoveryInfo("ERROR")
         
         if checkDeviceConnected == "Unable to connect to device" {
@@ -741,7 +774,7 @@ class ViewController: NSViewController {
         
         let checkDeviceState = self.iRecoveryInfo("MODE")
         let findDeviceModelRecovery = self.iRecoveryInfo("PRODUCT")
-
+        
         if checkDeviceState == "Recovery" {
             print("Found device in Recovery Mode!")
             self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in DFU Mode to continue. Try entering DFU Mode again, and be sure the device's screen is black before continuing. Then press the 'Bypass Device!' button again to try again.")
@@ -755,33 +788,172 @@ class ViewController: NSViewController {
             }
         }
         
-            if findDeviceModelRecovery == "iPhone6,1" || findDeviceModelRecovery == "iPad4,1" || findDeviceModelRecovery == "iPad4,2" || findDeviceModelRecovery == "iPad4,3" || findDeviceModelRecovery == "iPad4,4" || findDeviceModelRecovery == "iPad4,5" || findDeviceModelRecovery == "iPad4,6" || findDeviceModelRecovery == "PRODUCT: iPad4,7" || findDeviceModelRecovery == "iPad4,8" || findDeviceModelRecovery == "iPad4,9" {
-                print("A7 device detected!")
-                // let output1 = runTerminalCommand("\(resourcesPath)/irecovery -q > \(resourcesPath)/work/dfu.txt 2>&1")
-                // print(output1)
-                sleep(2)
-                // let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/dfu.txt")
-                // self.processDeviceDataNotNormalV2(from: fileURL)
-                // let success = self.showAskiOSVersionAlert2ReLock()  // Get success or failure
-                let success = self.showAskiOSVersionAlert2()  // Get success or failure
-                
-                if !success {
-                    return  // Stop further processing because processDeviceDataNoPopUp failed
-                }
-                // self.showAskiOSVersionAlert2ReLock()
-                // if !success {
-                    // return  // Stop further processing because processDeviceDataNoPopUp failed
-                // }
-            } else {
-                print("A8 or higher device detected!")
-                // let success = self.showAskiOSVersionAlertReLock()  // Get success or failure
-                // self.showAskiOSVersionAlertReLock()
-                let success = self.showAskiOSVersionAlert()  // Get success or failure
-                
-                if !success {
-                    return  // Stop further processing because processDeviceDataNoPopUp failed
-                }
+        if findDeviceModelRecovery == "iPhone6,1" || findDeviceModelRecovery == "iPad4,1" || findDeviceModelRecovery == "iPad4,2" || findDeviceModelRecovery == "iPad4,3" || findDeviceModelRecovery == "iPad4,4" || findDeviceModelRecovery == "iPad4,5" || findDeviceModelRecovery == "iPad4,6" || findDeviceModelRecovery == "PRODUCT: iPad4,7" || findDeviceModelRecovery == "iPad4,8" || findDeviceModelRecovery == "iPad4,9" {
+            print("A7 device detected!")
+            // let output1 = runTerminalCommand("\(resourcesPath)/irecovery -q > \(resourcesPath)/work/dfu.txt 2>&1")
+            // print(output1)
+            sleep(2)
+            // let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/dfu.txt")
+            // self.processDeviceDataNotNormalV2(from: fileURL)
+            // let success = self.showAskiOSVersionAlert2ReLock()  // Get success or failure
+            let success = self.showAskiOSVersionAlert2()  // Get success or failure
+            
+            if !success {
+                return  // Stop further processing because processDeviceDataNoPopUp failed
             }
+            // self.showAskiOSVersionAlert2ReLock()
+            // if !success {
+            // return  // Stop further processing because processDeviceDataNoPopUp failed
+            // }
+        } else if findDeviceModelRecovery == "iPhone10,6" || findDeviceModelRecovery == "iPhone10,3" {
+            
+            let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/deviceinfo.txt")
+            do {
+                let fileData = try String(contentsOf: fileURL, encoding: .utf8)
+                
+                if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:")?.trimmingCharacters(in: .whitespacesAndNewlines), !iosVersion.isEmpty {
+                    let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                    var major = 0
+                    var minor = 0
+                    
+                    if versionComponents.count > 0 {
+                        major = Int(versionComponents[0]) ?? 0
+                    }
+                    if versionComponents.count > 1 {
+                        minor = Int(versionComponents[1]) ?? 0
+                    }
+                    
+                    let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                    
+                    if versionNumber >= 12.0 {
+                        print("iOS Version entered: \(iosVersion)\n")  // Correctly unwrapped
+                        print("iPhone X Detected!")
+                        
+                        let output1 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && chmod +x * && xattr -cr * && chmod +x Darwin/* && xattr -cr Darwin/*")
+                        print(output1)
+                        
+                        sleep(1)
+                        print("Booting Palera1n Ramdisk...")
+                        sleep(1)
+                        
+                        let output2 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale/ && ./sshrd.sh boot > log.txt")
+                        print(output2)
+                        
+                        sleep(8)
+                        print("Palera1n Ramdisk should now be booted!")
+                        
+                        // sleep(2)
+                        print("Starting bypass script...")
+                        sleep(3)
+                        let scriptPath = "\(resourcesPath)/bypass.sh"
+                        let process = Process()
+                        process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                        process.arguments = [scriptPath]
+                        do {
+                            try process.run()
+                            process.waitUntilExit()
+                        } catch {
+                            // If failed, then print the error
+                            print("Failed to run script: \(error)")
+                        }
+                        sleep(3)
+                        print("✓ iCloud bypass complete! ✓")
+                        showAlert(message: "iCloud Bypass Done!", informativeText: "Enjoy your bypassed device!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                    } else {
+                        print("ERROR: iOS Version not supported!")
+                        print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
+                        showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                        return
+                    }
+                } else {
+                    print("No iOS version in text file.")
+                    print("Asking user what iOS version device is running...")
+                    if let iosVersion = promptForiOSVersion() {
+                        let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                        var major = 0
+                        var minor = 0
+                        
+                        if versionComponents.count > 0 {
+                            major = Int(versionComponents[0]) ?? 0
+                        }
+                        if versionComponents.count > 1 {
+                            minor = Int(versionComponents[1]) ?? 0
+                        }
+                        
+                        // Use only major and minor for comparison and further processing
+                        let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                        
+                        if versionNumber >= 12.0 {
+                            // Use the user's input
+                            print("iOS Version entered: \(iosVersion)")
+                            print("iPhone X Detected!")
+                            
+                            let output1 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && chmod +x * && xattr -cr * && chmod +x Darwin/* && xattr -cr Darwin/*")
+                            print(output1)
+                            
+                            sleep(1)
+                            print("Booting Ramdisk...")
+                            sleep(1)
+                            
+                            let output2 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && ./sshrd.sh boot > log.txt")
+                            print(output2)
+                            
+                            sleep(8)
+                            
+                            print("Ramdisk should now be booted.")
+                            sleep(2)
+                            print("Starting bypass script...")
+                            sleep(3)
+                            let scriptPath = "\(resourcesPath)/bypass.sh"
+                            let process = Process()
+                            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                            process.arguments = [scriptPath]
+                            do {
+                                try process.run()
+                                process.waitUntilExit()
+                            } catch {
+                                // If failed, then print the error
+                                print("Failed to run script: \(error)")
+                            }
+                            sleep(3)
+                            print("✓ iCloud bypass complete! ✓")
+                            showAlert(message: "iCloud Bypass Done!", informativeText: "Enjoy your bypassed device!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                            // print("No iOS version in text file or failed to fetch iOS version.")
+                            // print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
+                            // showAlert(message: "ERROR: No iOS Version was found!", informativeText: "This is most likely a Swift related problem. Please contact me on X @AlwaysAppleFTD or on Instagram @finn.desilva and I will help you.\n\nAlso, please remember that your feedback on this tool is important! The more users report bugs, the sooner I can fix them.")
+                        } else {
+                            // Default to 12.0
+                            let defaultVersion = "12.0"
+                            print("ERROR: iOS Version not supported!")
+                            showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                            return
+                        }
+                        
+                        // showAlert(message: "Ramdisk has been created!", informativeText: "Press OK to boot your device into SSH Ramdisk mode.")
+                        
+                    } else {
+                        // Handle the case where no iOS version was entered
+                        print("No iOS version entered.")
+                        showAlert(message: "ERROR: No iOS Version was entered!", informativeText: "You must enter the iOS Version of your device to continue.\n\nIf you don't know the exact version, you can put a rough guess like 13.0 or 15.0.")
+                        return
+                    }
+                    return
+                }
+            } catch {
+                print("An error occurred while reading the file: \(error)")
+                return
+            }
+            
+        } else {
+            print("A8 or higher device detected!")
+            // let success = self.showAskiOSVersionAlertReLock()  // Get success or failure
+            // self.showAskiOSVersionAlertReLock()
+            let success = self.showAskiOSVersionAlert()  // Get success or failure
+            
+            if !success {
+                return  // Stop further processing because processDeviceDataNoPopUp failed
+            }
+        }
     }
     
     func detectDFUDeviceNoPopUpReLock() {
@@ -814,18 +986,156 @@ class ViewController: NSViewController {
             }
         }
         
-            if findDeviceModelRecovery == "iPhone6,1" || findDeviceModelRecovery == "iPad4,1" || findDeviceModelRecovery == "iPad4,2" || findDeviceModelRecovery == "iPad4,3" || findDeviceModelRecovery == "iPad4,4" || findDeviceModelRecovery == "iPad4,5" || findDeviceModelRecovery == "iPad4,6" || findDeviceModelRecovery == "PRODUCT: iPad4,7" || findDeviceModelRecovery == "iPad4,8" || findDeviceModelRecovery == "iPad4,9" {
-                print("A7 device detected!")
-                //let output1 = runTerminalCommand("\(resourcesPath)/irecovery -q > \(resourcesPath)/work/dfu.txt 2>&1")
-                //print(output1)
-                sleep(2)
-                //let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/dfu.txt")
-                // self.processDeviceDataNotNormalV2(from: fileURL)
-                // let success = self.showAskiOSVersionAlert2ReLock()  // Get success or failure
-                self.showAskiOSVersionAlert2ReLock()
-                // if !success {
-                    // return  // Stop further processing because processDeviceDataNoPopUp failed
-                // }
+        if findDeviceModelRecovery == "iPhone6,1" || findDeviceModelRecovery == "iPad4,1" || findDeviceModelRecovery == "iPad4,2" || findDeviceModelRecovery == "iPad4,3" || findDeviceModelRecovery == "iPad4,4" || findDeviceModelRecovery == "iPad4,5" || findDeviceModelRecovery == "iPad4,6" || findDeviceModelRecovery == "PRODUCT: iPad4,7" || findDeviceModelRecovery == "iPad4,8" || findDeviceModelRecovery == "iPad4,9" {
+            print("A7 device detected!")
+            //let output1 = runTerminalCommand("\(resourcesPath)/irecovery -q > \(resourcesPath)/work/dfu.txt 2>&1")
+            //print(output1)
+            sleep(2)
+            //let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/dfu.txt")
+            // self.processDeviceDataNotNormalV2(from: fileURL)
+            // let success = self.showAskiOSVersionAlert2ReLock()  // Get success or failure
+            self.showAskiOSVersionAlert2ReLock()
+            // if !success {
+            // return  // Stop further processing because processDeviceDataNoPopUp failed
+            // }
+        } else if findDeviceModelRecovery == "iPhone10,6" || findDeviceModelRecovery == "iPhone10,3" {
+            
+            let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/deviceinfo.txt")
+            do {
+                let fileData = try String(contentsOf: fileURL, encoding: .utf8)
+                
+                if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:")?.trimmingCharacters(in: .whitespacesAndNewlines), !iosVersion.isEmpty {
+                    let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                    var major = 0
+                    var minor = 0
+                    
+                    if versionComponents.count > 0 {
+                        major = Int(versionComponents[0]) ?? 0
+                    }
+                    if versionComponents.count > 1 {
+                        minor = Int(versionComponents[1]) ?? 0
+                    }
+                    
+                    let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                    
+                    if versionNumber >= 12.0 {
+                        print("iOS Version entered: \(iosVersion)\n")  // Correctly unwrapped
+                        print("iPhone X Detected!")
+                        
+                        let output1 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && chmod +x * && xattr -cr * && chmod +x Darwin/* && xattr -cr Darwin/*")
+                        print(output1)
+                        
+                        sleep(1)
+                        print("Booting Palera1n Ramdisk...")
+                        sleep(1)
+                        
+                        let output2 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale/ && ./sshrd.sh boot > log.txt")
+                        print(output2)
+                        
+                        sleep(8)
+                        print("Palera1n Ramdisk should now be booted!")
+                        
+                        // sleep(2)
+                        print("Starting re-lock script...")
+                        sleep(3)
+                        let scriptPath = "\(resourcesPath)/unhide_baseband.sh"
+                        let process = Process()
+                        process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                        process.arguments = [scriptPath]
+                        do {
+                            try process.run()
+                            process.waitUntilExit()
+                        } catch {
+                            // If failed, then print the error
+                            print("Failed to run script: \(error)")
+                        }
+                        sleep(3)
+                        print("✓ iCloud bypass complete! ✓")
+                        showAlert(message: "iCloud Bypass Done!", informativeText: "Enjoy your bypassed device!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                    } else {
+                        print("ERROR: iOS Version not supported!")
+                        print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
+                        showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                        return
+                    }
+                } else {
+                    print("No iOS version in text file.")
+                    print("Asking user what iOS version device is running...")
+                    if let iosVersion = promptForiOSVersion() {
+                        let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                        var major = 0
+                        var minor = 0
+                        
+                        if versionComponents.count > 0 {
+                            major = Int(versionComponents[0]) ?? 0
+                        }
+                        if versionComponents.count > 1 {
+                            minor = Int(versionComponents[1]) ?? 0
+                        }
+                        
+                        // Use only major and minor for comparison and further processing
+                        let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                        
+                        if versionNumber >= 12.0 {
+                            // Use the user's input
+                            print("iOS Version entered: \(iosVersion)")
+                            print("iPhone X Detected!")
+                            
+                            let output1 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && chmod +x * && xattr -cr * && chmod +x Darwin/* && xattr -cr Darwin/*")
+                            print(output1)
+                            
+                            sleep(1)
+                            print("Booting Ramdisk...")
+                            sleep(1)
+                            
+                            let output2 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && ./sshrd.sh boot > log.txt")
+                            print(output2)
+                            
+                            sleep(8)
+                            
+                            print("Ramdisk should now be booted.")
+                            sleep(2)
+                            print("Starting re-lock script...")
+                            sleep(3)
+                            let scriptPath = "\(resourcesPath)/unhide_baseband.sh"
+                            let process = Process()
+                            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                            process.arguments = [scriptPath]
+                            do {
+                                try process.run()
+                                process.waitUntilExit()
+                            } catch {
+                                // If failed, then print the error
+                                print("Failed to run script: \(error)")
+                            }
+                            sleep(3)
+                            print("✓ iCloud bypass complete! ✓")
+                            showAlert(message: "iCloud Bypass Done!", informativeText: "Enjoy your bypassed device!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                            // print("No iOS version in text file or failed to fetch iOS version.")
+                            // print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
+                            // showAlert(message: "ERROR: No iOS Version was found!", informativeText: "This is most likely a Swift related problem. Please contact me on X @AlwaysAppleFTD or on Instagram @finn.desilva and I will help you.\n\nAlso, please remember that your feedback on this tool is important! The more users report bugs, the sooner I can fix them.")
+                        } else {
+                            // Default to 12.0
+                            let defaultVersion = "12.0"
+                            print("ERROR: iOS Version not supported!")
+                            showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                            return
+                        }
+                        
+                        // showAlert(message: "Ramdisk has been created!", informativeText: "Press OK to boot your device into SSH Ramdisk mode.")
+                        
+                    } else {
+                        // Handle the case where no iOS version was entered
+                        print("No iOS version entered.")
+                        showAlert(message: "ERROR: No iOS Version was entered!", informativeText: "You must enter the iOS Version of your device to continue.\n\nIf you don't know the exact version, you can put a rough guess like 13.0 or 15.0.")
+                        return
+                    }
+                    return
+                }
+            } catch {
+                print("An error occurred while reading the file: \(error)")
+                return
+            }
             } else {
                 print("A8 or higher device detected!")
                 //let success = self.showAskiOSVersionAlertReLock()  // Get success or failure
@@ -1256,7 +1566,7 @@ class ViewController: NSViewController {
                 } else {
                     print("ERROR: iOS Version not supported!")
                     print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
-                    showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.7")
+                    showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
                     return false
                 }
             } else {
@@ -1323,7 +1633,7 @@ class ViewController: NSViewController {
                         // Default to 12.0
                         let defaultVersion = "12.0"
                         print("ERROR: iOS Version not supported!")
-                        showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.7")
+                        showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
                         return false
                     }
                     
@@ -1596,7 +1906,7 @@ class ViewController: NSViewController {
                 } else {
                     print("ERROR: iOS Version not supported!")
                     print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
-                    showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.7")
+                    showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
                     return
                 }
             } else {
@@ -1663,7 +1973,7 @@ class ViewController: NSViewController {
                         // Default to 12.0
                         let defaultVersion = "12.0"
                         print("ERROR: iOS Version not supported!")
-                        showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.7")
+                        showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
                         return
                     }
                     
@@ -1938,6 +2248,7 @@ class ViewController: NSViewController {
                     print("Device is not registered with Lockra1n!")
                     print("User must be registered before continuing.")
                     self.bypassDeviceRef.isEnabled = false
+                    self.bypassDeviceNormalMode.isEnabled = false
                     scheduleLocalNotification(NotificationTitle: "Registration Status", NotificationMessage: "Your device (\(serialNumber)) is not registered with Lockra1n! Please visit alwaysappleftd.com/software/Lockra1n.html for details and registration.")
                     sleep(1)
                     let alert3 = NSAlert()
@@ -2007,17 +2318,35 @@ class ViewController: NSViewController {
                             
                             sleep(2)
                             
+                            let mkdir1 = runTerminalCommand("mkdir -p \(resourcesPath)/Device_Activation/var/")
+                            print(mkdir1)
+                            let mkdir2 = runTerminalCommand("mkdir -p \(resourcesPath)/Device_Activation/var/wireless/")
+                            print(mkdir2)
+                            let mkdir3 = runTerminalCommand("mkdir -p \(resourcesPath)/Device_Activation/var/wireless/Library/")
+                            print(mkdir3)
+                            let mkdir4 = runTerminalCommand("mkdir -p \(resourcesPath)/Device_Activation/var/wireless/Library/Preferences/")
+                            print(mkdir4)
+                            
+                            print("\(resourcesPath)/Device_Activation/var/wireless/Library/Preferences/")
+                            
+                            sleep(3)
+                            
+                            let output10 = runTerminalCommand("curl -k \"https://alwaysappleftd.com/bypass/Devices/activation_records/\(serialNumber)/commcenter.plist\" --output \(resourcesPath)/Device_Activation/var/wireless/Library/Preferences/com.apple.commcenter.device_specific_nobackup.plist")
+                            print(output10)
+                            
                             print("Finished creating activation files!")
                             print("Done.")
                             scheduleLocalNotification(NotificationTitle: "Activation files successfully generated!", NotificationMessage: "You can now bypass your device!")
                             self.bypassDeviceRef.isEnabled = true
+                            self.bypassDeviceNormalMode.isEnabled = true
                             
                         } else {
                             print("File size is not more than 3KB.")
                             scheduleLocalNotification(NotificationTitle: "Failed to generate activation tickets!", NotificationMessage: "An error occurred when generating activation files. DO NOT CONTINUE! Otherwise, your device will likely get bricked.")
-                            let output10 = runTerminalCommand("rm -rf \(resourcesPath)/Device_Activation")
-                            print(output10)
+                            let output11 = runTerminalCommand("rm -rf \(resourcesPath)/Device_Activation")
+                            print(output11)
                             self.bypassDeviceRef.isEnabled = false
+                            self.bypassDeviceNormalMode.isEnabled = false
                             return
                         }
                     } else {
@@ -2165,6 +2494,721 @@ class ViewController: NSViewController {
         }
     }
     
+    @IBAction func bypassDeviceNormalModeButtonPressed(_ sender: NSButton) {
+        // Make an Alert pop-up
+        let alert1 = NSAlert()
+        alert1.messageText = "Bypass Device?"
+        alert1.informativeText = "Make sure that you have followed all the steps above before continuing..."
+        alert1.addButton(withTitle: "Continue")
+        alert1.addButton(withTitle: "Cancel")
+        
+        let response = alert1.runModal()
+        
+        if response == .alertFirstButtonReturn {
+            guard let resourcesPath = Bundle.main.resourcePath else {
+                print("Failed to find the main bundle's resource path")
+                return
+            }
+            
+            print("Searching for connected device...")
+            
+            let output1 = runTerminalCommand("cd \(resourcesPath) && chmod +x * && xattr -cr *")
+            print(output1)
+            
+            let output2 = runTerminalCommand("\(resourcesPath)/ideviceinfo > \(resourcesPath)/work/deviceinfo.txt 2>&1")
+            print(output2)
+            
+            let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/deviceinfo.txt")
+            
+            do {
+                let fileData = try String(contentsOf: fileURL, encoding: .utf8)
+                //print("File Data: \(fileData)") // Debug: Check what is being read
+                
+                if fileData.contains("ERROR:") {
+                    print("ERROR: No normal mode device found!")
+                    print("Searching for Recovery or DFU Mode device...")
+                    sleep(1)
+                    
+                    let checkDeviceState = self.iRecoveryInfo("MODE")
+                    // let findDeviceModelRecovery = self.iRecoveryInfo("PRODUCT")
+                    
+                    if checkDeviceState == "Recovery" {
+                        let deviceModel = self.iRecoveryInfo("NAME")
+                        print("Found device in Recovery Mode!")
+                        self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in Normal Mode to continue. Press OK to restart the device out of Recovery Mode, then click the 'Bypass Device (Normal mode)' button again to start the bypass process!")
+                        let output1 = runTerminalCommand("\(resourcesPath)/futurerestore_194 --exit-recovery")
+                        print(output1)
+                        
+                        sleep(2)
+                        
+                        let alert3 = NSAlert()
+                        alert3.messageText = "Done!"
+                        alert3.informativeText = "Device should now be rebooting into Normal mode. Once you reach the Hello screen, click 'Bypass Device (Normal mode)' again to continue."
+                        alert3.addButton(withTitle: "OK")
+                        
+                        alert3.runModal()
+                        return
+                    } else if checkDeviceState == "DFU" {
+                        print("Found device in DFU Mode!")
+                        self.showAlert(message: "Device is in DFU Mode!", informativeText: "You must be in Normal Mode to continue. Restart the device out of DFU Mode manually, then click the 'Bypass Device (Normal Mode)' button again to start the process.")
+                        return
+                    } else {
+                        let alert3 = NSAlert()
+                        alert3.messageText = "No device was found!"
+                        alert3.informativeText = "Try disconnecting and reconnecting your device.\nIf that fails as well, try using a different USB cable, and ensure that if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter."
+                        alert3.addButton(withTitle: "OK")
+                        alert3.runModal()
+                    }
+                    
+                } else {
+                    
+                }
+                
+            } catch {
+                print("An error occurred while reading the file: \(error)")
+            }
+            
+            let filePath = "\(resourcesPath)/work/deviceinfo.txt"
+            
+            do {
+                let fileData = try String(contentsOfFile: filePath, encoding: .utf8)
+                let a7Devices = ["iPhone6,1", "iPad4,1", "iPad4,2", "iPad4,3", "iPad4,4", "iPad4,5", "iPad4,6", "iPad4,7", "iPad4,8", "iPad4,9"]
+                
+                if a7Devices.contains(where: fileData.contains) {
+                    print("A7 device detected!")
+                    // let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/dfu.txt")
+                    // self.processDeviceDataNotNormal(from: fileURL)
+                    // let deviceModel = extractData(from: fileData, start: "NAME: ", end: "\n")  // Assuming each data ends with a newline
+                    // showAlert(message: "Please enter DFU Mode now!", informativeText: "If you need instructions on how to enter DFU Mode, please Google 'How to enter DFU mode on ' and then your device model. Example might be 'How to enter DFU mode on iPhone 8'. Then find an online tutorial or website post.")
+                    
+                    print("Checking iOS Version...")
+                    
+                    // let checkiOSVersion = self.DeviceInfo("ProductVersion")
+                    if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:") {
+                        let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                        var major = 0
+                        var minor = 0
+                        
+                        if versionComponents.count > 0 {
+                            major = Int(versionComponents[0]) ?? 0
+                        }
+                        if versionComponents.count > 1 {
+                            minor = Int(versionComponents[1]) ?? 0
+                        }
+                        
+                        // Use only major and minor for comparison and further processing
+                        let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                        
+                        if versionNumber >= 12.0 {
+                            if versionNumber < 15.0 {
+                                // Use the user's input
+                                // print("Device iOS Version: \(checkiOSVersion)")
+                                print("Device is between iOS 12 and 14...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Checkra1n to continue. Also, you will need to enter DFU mode, so you can follow the instructions in the jailbreak app."
+                                alert1.addButton(withTitle: "Open Checkra1n (Built in to this app)")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let response = alert1.runModal()
+                                if response == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running checkra1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/checkra1n.app/Contents/MacOS/checkra1n"
+                                    let command2 = "xattr -cr \(resourcesPath)/checkra1n.app"
+                                    let command3 = "open \(resourcesPath)/checkra1n.app"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Did the jailbreak complete successfully and say 'All Done'?"
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Yes")
+                                    alert2.addButton(withTitle: "No")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Yay!"
+                                        alert4.informativeText = "Lockra1n will now move on to bypassing your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Sorry! You cannot continue without a jailbreak!"
+                                        alert1.informativeText = "Try jailbreaking again with checkra1n. If it still fails, make sure you are re-locking a device with iOS 12.0 - 14.5.1! For iOS 14.6 to 14.8.1, click the 'Options' button in the checkra1n app and check the 'Allow untested iOS/iPadOS/tvOS versions'. Additionally, for A11 devices, you may need to select 'Skip A11 BPR Check' to be able to continue with the jailbreak. Once done, go back and try re-locking again."
+                                        alert3.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert3.runModal()
+                                        return
+                                    }
+                                    
+                                } else if response == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to bypassing your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if response == .alertThirdButtonReturn {
+                                    return
+                                }
+                            } else {
+                                print("Device is either iOS 15, 16 or 17...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Palera1n to continue. Also, you will need to enter DFU mode. If you don't know how, just Google 'How to enter DFU Mode on ' and then your device model. Example might be 'How to enter DFU Mode on iPhone 8'."
+                                alert1.addButton(withTitle: "I've Entered DFU Mode")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let response = alert1.runModal()
+                                if response == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running palera1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command2 = "xattr -cr \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command3 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -p"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Please unplug your device from the Mac, then re-plug it back in. Click Done once done."
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Done")
+                                    alert2.addButton(withTitle: "Cancel")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        
+                                        let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                        
+                                        let process1 = Process()
+                                        process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                        process1.arguments = ["-c", command1]
+                                        
+                                        do {
+                                            try process1.run()
+                                            process1.waitUntilExit()
+                                        } catch {
+                                            print("Failed to run command: \(error)")
+                                        }
+                                        
+                                        sleep(5)
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Jailbreak Completed!"
+                                        alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to bypassing your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        // print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Are you sure?"
+                                        alert3.informativeText = "If you choose to Cancel, your device will hang on the Pongo shell until it is force restarted or the battery dies."
+                                        alert3.addButton(withTitle: "Continue")
+                                        alert3.addButton(withTitle: "Cancel Jailbreak")
+                                        let response3 = alert3.runModal()
+                                        if response3 == .alertFirstButtonReturn {
+                                            let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                            
+                                            let process1 = Process()
+                                            process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                            process1.arguments = ["-c", command1]
+                                            
+                                            do {
+                                                try process1.run()
+                                                process1.waitUntilExit()
+                                            } catch {
+                                                print("Failed to run command: \(error)")
+                                            }
+                                            
+                                            sleep(5)
+                                            let alert4 = NSAlert()
+                                            alert4.messageText = "Jailbreak Completed!"
+                                            alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to bypassing your device!"
+                                            alert4.addButton(withTitle: "OK")
+                                            // alert2.addButton(withTitle: "Cancel")
+                                            alert4.runModal()
+                                        } else if response3 == .alertSecondButtonReturn {
+                                            return
+                                        }
+                                    }
+                                } else if response == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to bypassing your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if response == .alertThirdButtonReturn {
+                                    return
+                                }
+                            }
+                            let alert1 = NSAlert()
+                            alert1.messageText = "One last check!"
+                            alert1.informativeText = "Please ensure your device has full booted up (on the Hello screen or any setup screen) and is connected to the Mac. This is crutial for Lockra1n to work correctly. Click OK to confirm and move on to bypassing your device!"
+                            alert1.addButton(withTitle: "OK")
+                            // alert2.addButton(withTitle: "Cancel")
+                            alert1.runModal()
+                            
+                            print("Starting bypass script...")
+                            sleep(3)
+                            let scriptPath = "\(resourcesPath)/bypass_normalmode.sh"
+                            let process = Process()
+                            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                            process.arguments = [scriptPath]
+                            do {
+                                try process.run()
+                                process.waitUntilExit()
+                            } catch {
+                                // If failed, then print the error
+                                print("Failed to run script: \(error)")
+                            }
+                            sleep(3)
+                            print("✓ iCloud bypass complete! ✓")
+                            showAlert(message: "iCloud Bypass Done!", informativeText: "Enjoy your bypassed device!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                        } else {
+                                print("Device iOS Version: \(iosVersion)")
+                                print("ERROR: iOS Version not supported!")
+                                showAlert(message: "ERROR: The iOS version of the device is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                                return
+                            }
+                        }
+                    
+                    // self.detectDFUDeviceNoPopUpV3()
+                    
+                    // Get success or failure
+                    // if !success2 {
+                    // return  // Stop further processing because detectDFUDeviceNoPopUp failed
+                    // }
+                    // self.detectDFUDeviceNoPopUp(from: fileURL)
+                    // } while !success
+                    
+                    //                        print("Showing showAskiOSVersionAlert2")
+                    //                        self.showAskiOSVersionAlert2()
+                } else if fileData.contains("ERROR: No device found!") {
+                    print("Something's not right. Your device was originally found, but appears to no longer be connected. Please try again.")
+                    return
+                    // showAlert(message: "ERROR: No device was detected!", informativeText: "This could mean that your device is not in DFU or Recovery mode, or isn't connected at all. Please connect a device in DFU mode to continue.")
+                    // showAlert(message: "No device was found!", informativeText: "If your device is in DFU mode or Recovery, then try booting into Normal mode and bypassing again.\n\nIf your device is in Normal mode, then try pressing the 'Search for Device' button again to re-pair the device. Then try bypassing again.\n\nIf that fails as well, try using a different USB cable, and also make sure if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter.")
+                } else {
+                    // This else block correctly handles any other device processor.
+                    print("A8 or higher device detected!")
+                    
+                    print("Checking iOS Version...")
+                    
+                    // let checkiOSVersion = self.DeviceInfo("ProductVersion")
+                    if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:") {
+                        let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                        var major = 0
+                        var minor = 0
+                        
+                        if versionComponents.count > 0 {
+                            major = Int(versionComponents[0]) ?? 0
+                        }
+                        if versionComponents.count > 1 {
+                            minor = Int(versionComponents[1]) ?? 0
+                        }
+                        
+                        // Use only major and minor for comparison and further processing
+                        let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                        
+                        if versionNumber >= 12.0 {
+                            if versionNumber < 15.0 {
+                                // Use the user's input
+                                // print("Device iOS Version: \(checkiOSVersion)")
+                                print("Device is between iOS 12 and 14...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Checkra1n to continue. Also, you will need to enter DFU mode, so you can follow the instructions in the jailbreak app."
+                                alert1.addButton(withTitle: "Open Checkra1n (Built in to this app)")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let response = alert1.runModal()
+                                if response == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running checkra1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/checkra1n.app/Contents/MacOS/checkra1n"
+                                    let command2 = "xattr -cr \(resourcesPath)/checkra1n.app"
+                                    let command3 = "open \(resourcesPath)/checkra1n.app"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Did the jailbreak complete successfully and say 'All Done'?"
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Yes")
+                                    alert2.addButton(withTitle: "No")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Yay!"
+                                        alert4.informativeText = "Lockra1n will now move on to bypassing your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Sorry! You cannot continue without a jailbreak!"
+                                        alert1.informativeText = "Try jailbreaking again with checkra1n. If it still fails, make sure you are bypassing with iOS 12.0 - 14.5.1! For iOS 14.6 to 14.8.1, click the 'Options' button in the checkra1n app and check the 'Allow untested iOS/iPadOS/tvOS versions'. Additionally, for A11 devices, you may need to select 'Skip A11 BPR Check' to be able to continue with the jailbreak. Once done, go back and try bypassing again."
+                                        alert3.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert3.runModal()
+                                        return
+                                    }
+                                    
+                                } else if response == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to bypassing your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if response == .alertThirdButtonReturn {
+                                    return
+                                }
+                            } else {
+                                print("Device is either iOS 15, 16 or 17...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Palera1n to continue. Also, you will need to enter DFU mode. If you don't know how, just Google 'How to enter DFU Mode on ' and then your device model. Example might be 'How to enter DFU Mode on iPhone 8'."
+                                alert1.addButton(withTitle: "I've Entered DFU Mode")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let palera1nJBresponse = alert1.runModal()
+                                if palera1nJBresponse == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running palera1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command2 = "xattr -cr \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command3 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -p"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Please unplug your device from the Mac, then re-plug it back in. Click Done once done."
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Done")
+                                    alert2.addButton(withTitle: "Cancel")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        
+                                        let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                        
+                                        let process1 = Process()
+                                        process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                        process1.arguments = ["-c", command1]
+                                        
+                                        do {
+                                            try process1.run()
+                                            process1.waitUntilExit()
+                                        } catch {
+                                            print("Failed to run command: \(error)")
+                                        }
+                                        
+                                        sleep(5)
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Jailbreak Completed!"
+                                        alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to bypassing your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        // print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Are you sure?"
+                                        alert3.informativeText = "If you choose to Cancel, your device will hang on the Pongo shell until it is force restarted or the battery dies."
+                                        alert3.addButton(withTitle: "Continue")
+                                        alert3.addButton(withTitle: "Cancel Jailbreak")
+                                        let response3 = alert3.runModal()
+                                        if response3 == .alertFirstButtonReturn {
+                                            let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                            
+                                            let process1 = Process()
+                                            process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                            process1.arguments = ["-c", command1]
+                                            
+                                            do {
+                                                try process1.run()
+                                                process1.waitUntilExit()
+                                            } catch {
+                                                print("Failed to run command: \(error)")
+                                            }
+                                            
+                                            sleep(5)
+                                            let alert4 = NSAlert()
+                                            alert4.messageText = "Jailbreak Completed!"
+                                            alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to bypassing your device!"
+                                            alert4.addButton(withTitle: "OK")
+                                            // alert2.addButton(withTitle: "Cancel")
+                                            alert4.runModal()
+                                        } else if response3 == .alertSecondButtonReturn {
+                                            return
+                                        }
+                                    }
+                                    
+                                } else if palera1nJBresponse == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to bypassing your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if palera1nJBresponse == .alertThirdButtonReturn {
+                                    return
+                                }
+                            }
+                            let alert1 = NSAlert()
+                            alert1.messageText = "One last check!"
+                            alert1.informativeText = "Please ensure your device has full booted up (on the Hello screen or any setup screen) and is connected to the Mac. This is crutial for Lockra1n to work correctly. Click OK to confirm and move on to bypassing your device!"
+                            alert1.addButton(withTitle: "OK")
+                            // alert2.addButton(withTitle: "Cancel")
+                            alert1.runModal()
+                            
+                            print("Starting bypass script...")
+                            sleep(3)
+                            let scriptPath = "\(resourcesPath)/bypass_normalmode.sh"
+                            let process = Process()
+                            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                            process.arguments = [scriptPath]
+                            do {
+                                try process.run()
+                                process.waitUntilExit()
+                            } catch {
+                                // If failed, then print the error
+                                print("Failed to run script: \(error)")
+                            }
+                            sleep(3)
+                            print("✓ iCloud bypass complete! ✓")
+                            showAlert(message: "iCloud Bypass Done!", informativeText: "Enjoy your bypassed device!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                        } else {
+                                print("Device iOS Version: \(iosVersion)")
+                                print("ERROR: iOS Version not supported!")
+                                showAlert(message: "ERROR: The iOS version of the device is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                                return
+                            }
+                        }
+                }
+            } catch {
+                print("Error reading file: \(error)")
+            }
+        }
+        
+        //            // If success, proceed with script execution
+        //            let scriptPath = "\(resourcesPath)/generate_activation_files.sh"
+        //
+        //            let process = Process()
+        //            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+        //            process.arguments = [scriptPath]
+        //
+        //            do {
+        //                try process.run()
+        //                process.waitUntilExit()
+        //            } catch {
+        //                // If failed, then print the error
+        //                print("Failed to run script: \(error)")
+        //            }
+        // }
+        
+        if response == .alertSecondButtonReturn {
+            return
+        }
+    }
+    
+    
     
     @IBAction func relockDeviceButtonPressed(_ sender: NSButton) {
         // Make an Alert pop-up
@@ -2205,6 +3249,9 @@ class ViewController: NSViewController {
                 return
             } // else {
                 let filePath = "\(resourcesPath)/work/relockinfo.txt"
+                // let checkDeviceState = self.iRecoveryInfo("MODE")
+                // let findDeviceModelRecovery = self.iRecoveryInfo("PRODUCT")
+                let findDeviceModelNormal = self.DeviceInfo("ProductType")
                 
                 do {
                     let fileData = try String(contentsOfFile: filePath, encoding: .utf8)
@@ -2241,6 +3288,199 @@ class ViewController: NSViewController {
                         return
                         // showAlert(message: "ERROR: No device was detected!", informativeText: "This could mean that your device is not in DFU or Recovery mode, or isn't connected at all. Please connect a device in DFU mode to continue.")
                         // showAlert(message: "No device was found!", informativeText: "If your device is in DFU mode or Recovery, then try booting into Normal mode and bypassing again.\n\nIf your device is in Normal mode, then try pressing the 'Search for Device' button again to re-pair the device. Then try bypassing again.\n\nIf that fails as well, try using a different USB cable, and also make sure if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter.")
+                    } else if findDeviceModelNormal == "iPhone10,6" || findDeviceModelNormal == "iPhone10,3" {
+                        // let checkDeviceState = self.iRecoveryInfo("MODE")
+                        // let findDeviceModelRecovery = self.iRecoveryInfo("PRODUCT")
+                        showAlert(message: "Please enter DFU Mode now!", informativeText: "If you need instructions on how to enter DFU Mode, please Google 'How to enter DFU mode on ' and then your device model. Example might be 'How to enter DFU mode on iPhone 8'. Then find an online tutorial or website post.")
+                        
+                        let checkDeviceState = self.iRecoveryInfo("MODE")
+                        
+                        if checkDeviceState == "Recovery" {
+                            let deviceModel = self.iRecoveryInfo("NAME")
+                            print("Found device in Recovery Mode!")
+                            self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in DFU Mode to continue. Press OK to exit Recovery mode, then try entering DFU Mode again. Be sure the device's screen is black before continuing. Then press the 'Re-Lock device (un-hide baseband, ramdisk)' button again to try again.")
+                            let output1 = runTerminalCommand("\(resourcesPath)/futurerestore_194 --exit-recovery")
+                            print(output1)
+                            
+                            sleep(2)
+                            
+                            let alert3 = NSAlert()
+                            alert3.messageText = "Done!"
+                            alert3.informativeText = "Device should now be rebooting into Normal mode. Once you reach the Hello screen, click the 'Re-Lock device (un-hide baseband, ramdisk)' again to continue."
+                            alert3.addButton(withTitle: "OK")
+                            
+                            alert3.runModal()
+                            return
+                        } else if checkDeviceState == "DFU" {
+                            print("DFU Mode device found!")
+                            print("All checks passed.")
+                        } else {
+                            print("No device was found!")
+                            showAlert(message: "No device was found!", informativeText: "If your device is in DFU mode or Recovery, then try booting into Normal mode and bypassing again.\n\nIf your device is in Normal mode, then try pressing the 'Search for Device' button again to re-pair the device. Then try bypassing again.\n\nIf that fails as well, try using a different USB cable, and also make sure if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter.")
+                            return
+                        }
+                        
+                        
+//                        let checkDeviceConnected = self.iRecoveryInfo("ERROR")
+//                        print("testing...")
+//                        if checkDeviceConnected == "Unable to connect to device" {
+//                            print("No device found!")
+//                            showAlert(message: "No device was found!", informativeText: "If your device is in DFU mode or Recovery, then try booting into Normal mode and bypassing again.\n\nIf your device is in Normal mode, then try pressing the 'Search for Device' button again to re-pair the device. Then try bypassing again.\n\nIf that fails as well, try using a different USB cable, and also make sure if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter.")
+//                            return
+//                        }
+//
+//                        if checkDeviceState == "Recovery" {
+//                                let deviceModel = self.iRecoveryInfo("NAME")
+//                                print("Found device in Recovery Mode!")
+//                                self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in DFU Mode to continue. Try entering DFU Mode again, and be sure the device's screen is black before continuing. Then press the 'Re-Lock device (un-hide baseband, ramdisk)' button again to try again.")
+//                            return
+//                        } else if checkDeviceState == "DFU" {
+//                            print("DFU Mode device found!")
+//                            print("All checks passed.")
+//                            // Change isDFUDetected to true to prevent further DFU detections
+//                            guard let resourcesPath = Bundle.main.resourcePath else {
+//                                print("Failed to find the main bundle's resource path")
+//                                return
+//                            }
+//                        }
+                        
+                           let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/deviceinfo.txt")
+                           do {
+                               let fileData = try String(contentsOf: fileURL, encoding: .utf8)
+                               
+                               if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:")?.trimmingCharacters(in: .whitespacesAndNewlines), !iosVersion.isEmpty {
+                                   let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                                   var major = 0
+                                   var minor = 0
+                                   
+                                   if versionComponents.count > 0 {
+                                       major = Int(versionComponents[0]) ?? 0
+                                   }
+                                   if versionComponents.count > 1 {
+                                       minor = Int(versionComponents[1]) ?? 0
+                                   }
+                                   
+                                   let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                                   
+                                   if versionNumber >= 12.0 {
+                                       print("iOS Version entered: \(iosVersion)\n")  // Correctly unwrapped
+                                       print("iPhone X Detected!")
+                                       
+                                       let output1 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && chmod +x * && xattr -cr * && chmod +x Darwin/* && xattr -cr Darwin/*")
+                                       print(output1)
+                                       
+                                       sleep(1)
+                                       print("Booting Palera1n Ramdisk...")
+                                       sleep(1)
+                                       
+                                       let output2 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale/ && ./sshrd.sh boot > log.txt")
+                                       print(output2)
+                                       
+                                       sleep(8)
+                                       print("Palera1n Ramdisk should now be booted!")
+                                       
+                                       // sleep(2)
+                                       print("Starting re-lock script...")
+                                       sleep(3)
+                                       let scriptPath = "\(resourcesPath)/unhide_baseband.sh"
+                                       let process = Process()
+                                       process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                       process.arguments = [scriptPath]
+                                       do {
+                                           try process.run()
+                                           process.waitUntilExit()
+                                       } catch {
+                                           // If failed, then print the error
+                                           print("Failed to run script: \(error)")
+                                       }
+                                       sleep(3)
+                                       print("✓ iCloud bypass complete! ✓")
+                                       showAlert(message: "Device Re-lock Done!", informativeText: "Your device will now reboot up to the setup screen!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                                   } else {
+                                       print("ERROR: iOS Version not supported!")
+                                       print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
+                                       showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                                       return
+                                   }
+                               } else {
+                                   print("No iOS version in text file.")
+                                   print("Asking user what iOS version device is running...")
+                                   if let iosVersion = promptForiOSVersion() {
+                                       let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                                       var major = 0
+                                       var minor = 0
+                                       
+                                       if versionComponents.count > 0 {
+                                           major = Int(versionComponents[0]) ?? 0
+                                       }
+                                       if versionComponents.count > 1 {
+                                           minor = Int(versionComponents[1]) ?? 0
+                                       }
+                                       
+                                       // Use only major and minor for comparison and further processing
+                                       let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                                       
+                                       if versionNumber >= 12.0 {
+                                           // Use the user's input
+                                           print("iOS Version entered: \(iosVersion)")
+                                           print("iPhone X Detected!")
+                                           
+                                           let output1 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && chmod +x * && xattr -cr * && chmod +x Darwin/* && xattr -cr Darwin/*")
+                                           print(output1)
+                                           
+                                           sleep(1)
+                                           print("Booting Ramdisk...")
+                                           sleep(1)
+                                           
+                                           let output2 = runTerminalCommand("cd \(resourcesPath)/SSHRD_Script_pale && ./sshrd.sh boot > log.txt")
+                                           print(output2)
+                                           
+                                           sleep(8)
+                                           
+                                           print("Ramdisk should now be booted.")
+                                           sleep(2)
+                                           print("Starting re-lock script...")
+                                           sleep(3)
+                                           let scriptPath = "\(resourcesPath)/unhide_baseband.sh"
+                                           let process = Process()
+                                           process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                           process.arguments = [scriptPath]
+                                           do {
+                                               try process.run()
+                                               process.waitUntilExit()
+                                           } catch {
+                                               // If failed, then print the error
+                                               print("Failed to run script: \(error)")
+                                           }
+                                           sleep(3)
+                                           print("✓ iCloud bypass complete! ✓")
+                                           showAlert(message: "Device Re-lock Done!", informativeText: "Your device will now reboot up to the setup screen!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                                           // print("No iOS version in text file or failed to fetch iOS version.")
+                                           // print("iOS Version entered: \(iosVersion)")  // Correctly unwrapped
+                                           // showAlert(message: "ERROR: No iOS Version was found!", informativeText: "This is most likely a Swift related problem. Please contact me on X @AlwaysAppleFTD or on Instagram @finn.desilva and I will help you.\n\nAlso, please remember that your feedback on this tool is important! The more users report bugs, the sooner I can fix them.")
+                                       } else {
+                                           // Default to 12.0
+                                           let defaultVersion = "12.0"
+                                           print("ERROR: iOS Version not supported!")
+                                           showAlert(message: "ERROR: The iOS version you entered is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                                           return
+                                       }
+                                       
+                                       // showAlert(message: "Ramdisk has been created!", informativeText: "Press OK to boot your device into SSH Ramdisk mode.")
+                                       
+                                   } else {
+                                       // Handle the case where no iOS version was entered
+                                       print("No iOS version entered.")
+                                       showAlert(message: "ERROR: No iOS Version was entered!", informativeText: "You must enter the iOS Version of your device to continue.\n\nIf you don't know the exact version, you can put a rough guess like 13.0 or 15.0.")
+                                       return
+                                   }
+                                   return
+                               }
+                           } catch {
+                               print("An error occurred while reading the file: \(error)")
+                               return
+                           }
+                           
                     } else {
                         // This else block correctly handles any other device processor.
                         print("A8 or higher device detected!")
@@ -2281,6 +3521,721 @@ class ViewController: NSViewController {
 //                print("Failed to run script: \(error)")
 //            }
        // }
+        
+        if response == .alertSecondButtonReturn {
+            return
+        }
+    }
+    
+    @IBAction func relockDeviceNormalModeButton(_ sender: NSButton) {
+        // Make an Alert pop-up
+        let alert1 = NSAlert()
+        alert1.messageText = "Re-Lock Device?"
+        alert1.informativeText = "This will undo the iCloud bypass. Your device will return to the Hello screen. Note that this does not remove the activation tickets, it just unhides the baseband so the device will return to the setup screen."
+        alert1.addButton(withTitle: "Continue")
+        alert1.addButton(withTitle: "Cancel")
+        
+        let response = alert1.runModal()
+        
+        if response == .alertFirstButtonReturn {
+            guard let resourcesPath = Bundle.main.resourcePath else {
+                print("Failed to find the main bundle's resource path")
+                return
+            }
+            
+            print("Searching for connected device...")
+            
+            let output1 = runTerminalCommand("cd \(resourcesPath) && chmod +x * && xattr -cr *")
+            print(output1)
+            
+            let output2 = runTerminalCommand("\(resourcesPath)/ideviceinfo > \(resourcesPath)/work/deviceinfo.txt 2>&1")
+            print(output2)
+            
+            let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/deviceinfo.txt")
+            
+            do {
+                let fileData = try String(contentsOf: fileURL, encoding: .utf8)
+                //print("File Data: \(fileData)") // Debug: Check what is being read
+                
+                if fileData.contains("ERROR:") {
+                    print("ERROR: No normal mode device found!")
+                    print("Searching for Recovery or DFU Mode device...")
+                    sleep(1)
+                    
+                    let checkDeviceState = self.iRecoveryInfo("MODE")
+                    // let findDeviceModelRecovery = self.iRecoveryInfo("PRODUCT")
+                    
+                    if checkDeviceState == "Recovery" {
+                        let deviceModel = self.iRecoveryInfo("NAME")
+                        print("Found device in Recovery Mode!")
+                        self.showAlert(message: "Device is in Recovery Mode!", informativeText: "You must be in Normal Mode to continue. Press OK to restart the device out of Recovery Mode, then click the 'Re-Lock device (un-hide baseband, normal mode)' button again to start the re-lock process.")
+                        let output1 = runTerminalCommand("\(resourcesPath)/futurerestore_194 --exit-recovery")
+                        print(output1)
+                        
+                        sleep(2)
+                        
+                        let alert3 = NSAlert()
+                        alert3.messageText = "Done!"
+                        alert3.informativeText = "Device should now be rebooting into Normal mode. Once you reach the Hello screen, click 'Re-Lock device (un-hide baseband, normal mode)' again to continue."
+                        alert3.addButton(withTitle: "OK")
+                        
+                        alert3.runModal()
+                        return
+                    } else if checkDeviceState == "DFU" {
+                        print("Found device in DFU Mode!")
+                        self.showAlert(message: "Device is in DFU Mode!", informativeText: "You must be in Normal Mode to continue. Restart the device out of DFU Mode manually, then click the 'Re-Lock device (un-hide baseband, normal mode)' button again to start the process.")
+                        return
+                    } else {
+                        let alert3 = NSAlert()
+                        alert3.messageText = "No device was found!"
+                        alert3.informativeText = "Try disconnecting and reconnecting your device.\nIf that fails as well, try using a different USB cable, and ensure that if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter."
+                        alert3.addButton(withTitle: "OK")
+                        alert3.runModal()
+                    }
+                    
+                } else {
+                    
+                }
+                
+            } catch {
+                print("An error occurred while reading the file: \(error)")
+            }
+            
+            let filePath = "\(resourcesPath)/work/deviceinfo.txt"
+            
+            do {
+                let fileData = try String(contentsOfFile: filePath, encoding: .utf8)
+                let a7Devices = ["iPhone6,1", "iPad4,1", "iPad4,2", "iPad4,3", "iPad4,4", "iPad4,5", "iPad4,6", "iPad4,7", "iPad4,8", "iPad4,9"]
+                
+                if a7Devices.contains(where: fileData.contains) {
+                    print("A7 device detected!")
+                    // let fileURL = URL(fileURLWithPath: "\(resourcesPath)/work/dfu.txt")
+                    // self.processDeviceDataNotNormal(from: fileURL)
+                    // let deviceModel = extractData(from: fileData, start: "NAME: ", end: "\n")  // Assuming each data ends with a newline
+                    // showAlert(message: "Please enter DFU Mode now!", informativeText: "If you need instructions on how to enter DFU Mode, please Google 'How to enter DFU mode on ' and then your device model. Example might be 'How to enter DFU mode on iPhone 8'. Then find an online tutorial or website post.")
+                    
+                    print("Checking iOS Version...")
+                    
+                    // let checkiOSVersion = self.DeviceInfo("ProductVersion")
+                    if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:") {
+                        let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                        var major = 0
+                        var minor = 0
+                        
+                        if versionComponents.count > 0 {
+                            major = Int(versionComponents[0]) ?? 0
+                        }
+                        if versionComponents.count > 1 {
+                            minor = Int(versionComponents[1]) ?? 0
+                        }
+                        
+                        // Use only major and minor for comparison and further processing
+                        let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                        
+                        if versionNumber >= 12.0 {
+                            if versionNumber < 15.0 {
+                                // Use the user's input
+                                // print("Device iOS Version: \(checkiOSVersion)")
+                                print("Device is between iOS 12 and 14...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Checkra1n to continue. Also, you will need to enter DFU mode, so you can follow the instructions in the jailbreak app."
+                                alert1.addButton(withTitle: "Open Checkra1n (Built in to this app)")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let response = alert1.runModal()
+                                if response == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running checkra1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/checkra1n.app/Contents/MacOS/checkra1n"
+                                    let command2 = "xattr -cr \(resourcesPath)/checkra1n.app"
+                                    let command3 = "open \(resourcesPath)/checkra1n.app"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Did the jailbreak complete successfully and say 'All Done'?"
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Yes")
+                                    alert2.addButton(withTitle: "No")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Yay!"
+                                        alert4.informativeText = "Lockra1n will now move on to re-locking your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Sorry! You cannot continue without a jailbreak!"
+                                        alert1.informativeText = "Try jailbreaking again with checkra1n. If it still fails, make sure you are re-locking a device with iOS 12.0 - 14.5.1! For iOS 14.6 to 14.8.1, click the 'Options' button in the checkra1n app and check the 'Allow untested iOS/iPadOS/tvOS versions'. Additionally, for A11 devices, you may need to select 'Skip A11 BPR Check' to be able to continue with the jailbreak. Once done, go back and try re-locking again."
+                                        alert3.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert3.runModal()
+                                        return
+                                    }
+                                    
+                                } else if response == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to re-locking your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if response == .alertThirdButtonReturn {
+                                    return
+                                }
+                            } else {
+                                print("Device is either iOS 15, 16 or 17...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Palera1n to continue. Also, you will need to enter DFU mode. If you don't know how, just Google 'How to enter DFU Mode on ' and then your device model. Example might be 'How to enter DFU Mode on iPhone 8'."
+                                alert1.addButton(withTitle: "I've Entered DFU Mode")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let response = alert1.runModal()
+                                if response == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running palera1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command2 = "xattr -cr \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command3 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -p"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Please unplug your device from the Mac, then re-plug it back in. Click Done once done."
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Done")
+                                    alert2.addButton(withTitle: "Cancel")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        
+                                        let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                        
+                                        let process1 = Process()
+                                        process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                        process1.arguments = ["-c", command1]
+                                        
+                                        do {
+                                            try process1.run()
+                                            process1.waitUntilExit()
+                                        } catch {
+                                            print("Failed to run command: \(error)")
+                                        }
+                                        
+                                        sleep(5)
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Jailbreak Completed!"
+                                        alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to re-locking your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        // print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Are you sure?"
+                                        alert3.informativeText = "If you choose to Cancel, your device will hang on the Pongo shell until it is force restarted or the battery dies."
+                                        alert3.addButton(withTitle: "Continue Jailbreak")
+                                        alert3.addButton(withTitle: "Cancel Jailbreak")
+                                        let response3 = alert3.runModal()
+                                        if response3 == .alertFirstButtonReturn {
+                                            let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                            
+                                            let process1 = Process()
+                                            process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                            process1.arguments = ["-c", command1]
+                                            
+                                            do {
+                                                try process1.run()
+                                                process1.waitUntilExit()
+                                            } catch {
+                                                print("Failed to run command: \(error)")
+                                            }
+                                            
+                                            sleep(5)
+                                            let alert4 = NSAlert()
+                                            alert4.messageText = "Jailbreak Completed!"
+                                            alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to re-locking your device!"
+                                            alert4.addButton(withTitle: "OK")
+                                            // alert2.addButton(withTitle: "Cancel")
+                                            alert4.runModal()
+                                        } else if response3 == .alertSecondButtonReturn {
+                                            return
+                                        }
+                                    }
+                                    
+                                } else if response == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to re-locking your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if response == .alertThirdButtonReturn {
+                                    return
+                                }
+                            }
+                            let alert1 = NSAlert()
+                            alert1.messageText = "One last check!"
+                            alert1.informativeText = "Please ensure your device has full booted up (on the Hello screen or any setup screen) and is connected to the Mac. This is crutial for Lockra1n to work correctly. Click OK to confirm and move on to re-locking your device!"
+                            alert1.addButton(withTitle: "OK")
+                            // alert2.addButton(withTitle: "Cancel")
+                            alert1.runModal()
+                            
+                            print("Starting re-lock script...")
+                            sleep(3)
+                            let scriptPath = "\(resourcesPath)/unhide_baseband_normalmode.sh"
+                            let process = Process()
+                            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                            process.arguments = [scriptPath]
+                            do {
+                                try process.run()
+                                process.waitUntilExit()
+                            } catch {
+                                // If failed, then print the error
+                                print("Failed to run script: \(error)")
+                            }
+                            sleep(3)
+                            print("✓ Device Re-lock complete! ✓")
+                            showAlert(message: "Device Re-lock Done!", informativeText: "Your device will now reboot up to the setup screen!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                        } else {
+                            print("Device iOS Version: \(iosVersion)")
+                            print("ERROR: iOS Version not supported!")
+                            showAlert(message: "ERROR: The iOS version of the device is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                            return
+                        }
+                    }
+                    
+                    // self.detectDFUDeviceNoPopUpV3()
+                    
+                    // Get success or failure
+                    // if !success2 {
+                    // return  // Stop further processing because detectDFUDeviceNoPopUp failed
+                    // }
+                    // self.detectDFUDeviceNoPopUp(from: fileURL)
+                    // } while !success
+                    
+                    //                        print("Showing showAskiOSVersionAlert2")
+                    //                        self.showAskiOSVersionAlert2()
+                } else if fileData.contains("ERROR: No device found!") {
+                    print("Something's not right. Your device was originally found, but appears to no longer be connected. Please try again.")
+                    return
+                    // showAlert(message: "ERROR: No device was detected!", informativeText: "This could mean that your device is not in DFU or Recovery mode, or isn't connected at all. Please connect a device in DFU mode to continue.")
+                    // showAlert(message: "No device was found!", informativeText: "If your device is in DFU mode or Recovery, then try booting into Normal mode and bypassing again.\n\nIf your device is in Normal mode, then try pressing the 'Search for Device' button again to re-pair the device. Then try bypassing again.\n\nIf that fails as well, try using a different USB cable, and also make sure if your Mac has the new USB-C ports, you are using a USB-C to USB-A adapter.")
+                } else {
+                    // This else block correctly handles any other device processor.
+                    print("A8 or higher device detected!")
+                    
+                    print("Checking iOS Version...")
+                    
+                    // let checkiOSVersion = self.DeviceInfo("ProductVersion")
+                    if let iosVersion = extractData(from: fileData, start: "ProductVersion: ", end: "ProductionSOC:") {
+                        let versionComponents = iosVersion.split(separator: ".").map(String.init)
+                        var major = 0
+                        var minor = 0
+                        
+                        if versionComponents.count > 0 {
+                            major = Int(versionComponents[0]) ?? 0
+                        }
+                        if versionComponents.count > 1 {
+                            minor = Int(versionComponents[1]) ?? 0
+                        }
+                        
+                        // Use only major and minor for comparison and further processing
+                        let versionNumber = Double("\(major).\(minor)") ?? 0.0
+                        
+                        if versionNumber >= 12.0 {
+                            if versionNumber < 15.0 {
+                                // Use the user's input
+                                // print("Device iOS Version: \(checkiOSVersion)")
+                                print("Device is between iOS 12 and 14...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Checkra1n to continue. Also, you will need to enter DFU mode, so you can follow the instructions in the jailbreak app."
+                                alert1.addButton(withTitle: "Open Checkra1n (Built in to this app)")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let response = alert1.runModal()
+                                if response == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running checkra1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/checkra1n.app/Contents/MacOS/checkra1n"
+                                    let command2 = "xattr -cr \(resourcesPath)/checkra1n.app"
+                                    let command3 = "open \(resourcesPath)/checkra1n.app"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Did the jailbreak complete successfully and say 'All Done'?"
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Yes")
+                                    alert2.addButton(withTitle: "No")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Yay!"
+                                        alert4.informativeText = "Lockra1n will now move on to re-locking your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Sorry! You cannot continue without a jailbreak!"
+                                        alert1.informativeText = "Try jailbreaking again with checkra1n. If it still fails, make sure you are re-locking a device with iOS 12.0 - 14.5.1! For iOS 14.6 to 14.8.1, click the 'Options' button in the checkra1n app and check the 'Allow untested iOS/iPadOS/tvOS versions'. Additionally, for A11 devices, you may need to select 'Skip A11 BPR Check' to be able to continue with the jailbreak. Once done, go back and try re-locking again."
+                                        alert3.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert3.runModal()
+                                        return
+                                    }
+                                    
+                                } else if response == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to re-locking your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if response == .alertThirdButtonReturn {
+                                    return
+                                }
+                            } else {
+                                print("Device is either iOS 15, 16 or 17...")
+                                print("Device iOS Version: \(iosVersion)")
+                                
+                                let alert1 = NSAlert()
+                                alert1.messageText = "Jailbreak your device"
+                                // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                alert1.informativeText = "You will need to jailbreak your device using Palera1n to continue. Also, you will need to enter DFU mode. If you don't know how, just Google 'How to enter DFU Mode on ' and then your device model. Example might be 'How to enter DFU Mode on iPhone 8'."
+                                alert1.addButton(withTitle: "I've Entered DFU Mode")
+                                alert1.addButton(withTitle: "Already Done Jailbreak")
+                                alert1.addButton(withTitle: "Cancel")
+                                let palera1nJBresponse = alert1.runModal()
+                                if palera1nJBresponse == .alertFirstButtonReturn {
+                                    // self.AutomaticallySSHConnection()
+                                    // self.backupPasscodeFiles()
+                                    //let alert2 = NSAlert()
+                                    //alert2.messageText = "Please enter DFU Mode on your device!"
+                                    //alert2.informativeText = "Once done, click OK to continue with jailbreak."
+                                    //alert2.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    //alert2.runModal()
+                                    
+                                    //print("Running palera1n executable...")
+                                    //sleep(2)
+                                    
+                                    guard let resourcesPath = Bundle.main.resourcePath else {
+                                        print("Failed to find the main bundle's resource path")
+                                        return
+                                    }
+                                    
+                                    let command1 = "chmod +x \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command2 = "xattr -cr \(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal"
+                                    let command3 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -p"
+                                    
+                                    let process1 = Process()
+                                    process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process1.arguments = ["-c", command1]
+                                    
+                                    let process2 = Process()
+                                    process2.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process2.arguments = ["-c", command2]
+                                    
+                                    let process3 = Process()
+                                    process3.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                    process3.arguments = ["-c", command3]
+                                    
+                                    do {
+                                        try process1.run()
+                                        process1.waitUntilExit()
+                                        
+                                        try process2.run()
+                                        process2.waitUntilExit()
+                                        
+                                        try process3.run()
+                                        process3.waitUntilExit()
+                                    } catch {
+                                        print("Failed to run commands: \(error)")
+                                    }
+                                    
+                                    sleep(1)
+                                    
+                                    let alert2 = NSAlert()
+                                    alert2.messageText = "Please unplug your device from the Mac, then re-plug it back in. Click Done once done."
+                                    // alert1.informativeText = "You will need to enter DFU mode, so look up how to for your model now if you don't know how to."
+                                    alert2.informativeText = ""
+                                    alert2.addButton(withTitle: "Done")
+                                    alert2.addButton(withTitle: "Cancel")
+                                    let response2 = alert2.runModal()
+                                    if response2 == .alertFirstButtonReturn {
+                                        // bypassDeviceButton.isEnabled = true
+                                        // deactivateButton.isEnabled = true
+                                        
+                                        let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                        
+                                        let process1 = Process()
+                                        process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                        process1.arguments = ["-c", command1]
+                                        
+                                        do {
+                                            try process1.run()
+                                            process1.waitUntilExit()
+                                        } catch {
+                                            print("Failed to run command: \(error)")
+                                        }
+                                        
+                                        sleep(5)
+                                        let alert4 = NSAlert()
+                                        alert4.messageText = "Jailbreak Completed!"
+                                        alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to re-locking your device!"
+                                        alert4.addButton(withTitle: "OK")
+                                        // alert2.addButton(withTitle: "Cancel")
+                                        alert4.runModal()
+                                    } else if response2 == .alertSecondButtonReturn {
+                                        // print("ERROR: You cannot continue without a jailbreak!")
+                                        let alert3 = NSAlert()
+                                        alert3.messageText = "Are you sure?"
+                                        alert3.informativeText = "If you choose to Cancel, your device will hang on the Pongo shell until it is force restarted or the battery dies."
+                                        alert3.addButton(withTitle: "Continue")
+                                        alert3.addButton(withTitle: "Cancel Jailbreak")
+                                        let response3 = alert3.runModal()
+                                        if response3 == .alertFirstButtonReturn {
+                                            let command1 = "\(resourcesPath)/jailbreak/palera1n-macos-universal_bakepal -r \(resourcesPath)/PongoOS/build/ramdisk.dmg -V"
+                                            
+                                            let process1 = Process()
+                                            process1.executableURL = URL(fileURLWithPath: "/bin/sh")
+                                            process1.arguments = ["-c", command1]
+                                            
+                                            do {
+                                                try process1.run()
+                                                process1.waitUntilExit()
+                                            } catch {
+                                                print("Failed to run command: \(error)")
+                                            }
+                                            
+                                            sleep(5)
+                                            let alert4 = NSAlert()
+                                            alert4.messageText = "Jailbreak Completed!"
+                                            alert4.informativeText = "Your device should now be verbose booting to the Apple logo, then the Hello screen should show. Once done, click OK. Lockra1n will then move on to re-locking your device!"
+                                            alert4.addButton(withTitle: "OK")
+                                            // alert2.addButton(withTitle: "Cancel")
+                                            alert4.runModal()
+                                        } else if response3 == .alertSecondButtonReturn {
+                                            return
+                                        }
+                                    }
+                                    
+                                } else if palera1nJBresponse == .alertSecondButtonReturn {
+                                    // bypassDeviceButton.isEnabled = true
+                                    // deactivateButton.isEnabled = true
+                                    let alert5 = NSAlert()
+                                    alert5.messageText = "Yay!"
+                                    alert5.informativeText = "Lockra1n will now move on to re-locking your device!"
+                                    alert5.addButton(withTitle: "OK")
+                                    // alert2.addButton(withTitle: "Cancel")
+                                    alert5.runModal()
+                                } else if palera1nJBresponse == .alertThirdButtonReturn {
+                                    return
+                                }
+                            }
+                            let alert1 = NSAlert()
+                            alert1.messageText = "One last check!"
+                            alert1.informativeText = "Please ensure your device has full booted up (on the Hello screen or any setup screen) and is connected to the Mac. This is crutial for Lockra1n to work correctly. Click OK to confirm and move on to re-locking your device!"
+                            alert1.addButton(withTitle: "OK")
+                            // alert2.addButton(withTitle: "Cancel")
+                            alert1.runModal()
+                            
+                            print("Starting re-lock script...")
+                            sleep(3)
+                            let scriptPath = "\(resourcesPath)/unhide_baseband_normalmode.sh"
+                            let process = Process()
+                            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                            process.arguments = [scriptPath]
+                            do {
+                                try process.run()
+                                process.waitUntilExit()
+                            } catch {
+                                // If failed, then print the error
+                                print("Failed to run script: \(error)")
+                            }
+                            sleep(3)
+                            print("✓ Device Re-lock complete! ✓")
+                            showAlert(message: "Device Re-lock Done!", informativeText: "Your device will now reboot up to the setup screen!\n\nPS. If you got some of your devices working thanks to this tool, send me a DM on X (@AlwaysAppleFTD) or on Instagram (@finn.desilva) :)")
+                        } else {
+                            print("Device iOS Version: \(iosVersion)")
+                            print("ERROR: iOS Version not supported!")
+                            showAlert(message: "ERROR: The iOS version of the device is not supported!", informativeText: "Lockra1n supports checkm8-compatible devices running iOS 12.0 - 16.7.8")
+                            return
+                        }
+                    }
+                }
+            } catch {
+                print("Error reading file: \(error)")
+            }
+        }
+        
+        //            // If success, proceed with script execution
+        //            let scriptPath = "\(resourcesPath)/generate_activation_files.sh"
+        //
+        //            let process = Process()
+        //            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+        //            process.arguments = [scriptPath]
+        //
+        //            do {
+        //                try process.run()
+        //                process.waitUntilExit()
+        //            } catch {
+        //                // If failed, then print the error
+        //                print("Failed to run script: \(error)")
+        //            }
+        // }
         
         if response == .alertSecondButtonReturn {
             return
@@ -2671,6 +4626,60 @@ class ViewController: NSViewController {
         }
     }
     
+    func sendVersionToServer() {
+        if !isInternetAvailable() {
+            print("Error: No internet connection!")
+            DispatchQueue.main.async {
+                self.showCriticalAlert(message: "No Internet Connection", informativeText: "An internet connection is required for Lockra1n to function. The software will exit.")
+            }
+            return
+        }
+        
+        guard let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            print("Failed to get app version")
+            return
+        }
+
+        let url = URL(string: "https://alwaysappleftd.com/software/Lockra1n/app_version.php")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let postString = "version=\(appVersion)"
+        request.httpBody = postString.data(using: .utf8)
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("Response: \(responseString)")
+                DispatchQueue.main.async {
+                    self.handleServerResponse(responseString)
+                }
+            }
+        }
+        task.resume()
+    }
+
+    func handleServerResponse(_ response: String) {
+        if response.hasPrefix("critical_update_required") {
+            let criticalMessage = response.replacingOccurrences(of: "critical_update_required: ", with: "")
+            showCriticalAlert(message: "A critical Lockra1n error has occurred.", informativeText: criticalMessage)
+        } else if response.hasPrefix("update_required") {
+            let downloadURLPrefix = "download_url: "
+            if let downloadURLRange = response.range(of: downloadURLPrefix) {
+                let downloadURL = String(response[downloadURLRange.upperBound...])
+                showUpdateAlert(message: "Update Available", informativeText: "A new version of Lockra1n is available. Please update to the latest version.", updateURLString: downloadURL)
+            } else {
+                showUpdateAlert(message: "Update Available", informativeText: "A new version of Lockra1n is available. Please update to the latest version.", updateURLString: "https://alwaysappleftd.com/software/Lockra1n.html")
+            }
+        }
+    }
     
     
     @IBAction func sendNotification(_ sender: NSButton) {
@@ -2702,6 +4711,30 @@ class ViewController: NSViewController {
         // self.runAppleScript()
     }
     
+    func isInternetAvailable() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }) else {
+            return false
+        }
+
+        var flags: SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        
+        return isReachable && !needsConnection
+    }
+    
     @IBAction func doneCreditsButtonPressed(_ sender: NSButton) {
         self.creditsMainText.isHidden = true
         self.creditsText1.isHidden = true
@@ -2719,7 +4752,10 @@ class ViewController: NSViewController {
         self.searchDeviceRef.isHidden = false
         self.genActRef.isHidden = false
         self.bypassDeviceRef.isHidden = false
+        self.bypassDeviceNormalMode.isHidden = false
         self.relockDeviceRef.isHidden = false
+        self.relockDeviceNormalModeRef.isHidden = false
+        self.moreOptionsText.isHidden = false
         self.exitRecModeRef.isHidden = false
         //self.manageRecoveryRef.isHidden = false
         self.enterPwnDFURef.isHidden = false
@@ -2752,7 +4788,10 @@ class ViewController: NSViewController {
         self.searchDeviceRef.isHidden = true
         self.genActRef.isHidden = true
         self.bypassDeviceRef.isHidden = true
+        self.bypassDeviceNormalMode.isHidden = true
         self.relockDeviceRef.isHidden = true
+        self.relockDeviceNormalModeRef.isHidden = true
+        self.moreOptionsText.isHidden = true
         self.exitRecModeRef.isHidden = true
         //self.manageRecoveryRef.isHidden = true
         self.enterPwnDFURef.isHidden = true
@@ -2851,7 +4890,7 @@ class ViewController: NSViewController {
         // Make an Alert pop-up
         DispatchQueue.main.async {
             let alert = NSAlert()
-            alert.messageText = "Welcome to Lockra1n!\nThis is a free untethered iCloud bypass tool for iOS 15.0 to 16.7.7.\n\nPlease read the disclaimer:"
+            alert.messageText = "Welcome to Lockra1n!\nThis is a free untethered iCloud bypass tool for iOS 13.0 to 16.7.8.\n\nPlease read the disclaimer:"
             alert.informativeText = "Before you proceed further, I would like to emphasize and clarify the ethical principles surrounding the software you are about to utilize. This disclaimer is intended to ensure a responsible usage of the software developed. The software you are accessing is a product that can be used to bypass the iCloud lock on Apple devices, and is designed with the primary purpose of unlocking. It is crucial to understand that the developer behind this software disapproves of any form of stealing, illegal activities, or misuse of the software. By using this software, you agree not to engage in any unauthorized or unlawful activities, including the following: \n\n* Theft or unauthorized use of this software or it’s UI which was purely designed by me\n* Utilizing the software to participate in any illegal activities such as unlocking a stolen device.\n\nAs the developer of this software, I assume no liability for any improper or illegal use of the software by any third parties. I cannot be held responsible for any actions taken by users that violate the terms and conditions outlined in this disclaimer.\n\nBy continuing to use this software, you acknowledge and agree to abide by these guidelines, and you commit to using the software responsibly and legally. Thank you for your attention to this matter and for being a responsible user. Please remember that if this software bricks your device, I am 100% NOT RESPONSIBLE!\nBy agreeing to the disclaimer, you are agreeing that it won’t matter if your device gets stuck in a boot loop or gets bricked in any way, and you will not blame the software for breaking your device.\n\nThank you."
             alert.addButton(withTitle: "Agree")
             alert.addButton(withTitle: "Disagree")
@@ -2915,6 +4954,35 @@ class ViewController: NSViewController {
         alert.runModal()
     }
     
+    func showUpdateAlert(message: String, informativeText: String, updateURLString: String) {
+        let alert = NSAlert()
+        alert.messageText = message
+        alert.informativeText = informativeText
+        alert.addButton(withTitle: "Download Update")
+        alert.addButton(withTitle: "No Thanks")
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            if let url = URL(string: updateURLString) {
+                NSWorkspace.shared.open(url)
+            } else {
+                print("Could not create URL.")
+            }
+        } else if response == .alertSecondButtonReturn {
+            return
+        }
+    }
+
+    func showCriticalAlert(message: String, informativeText: String) {
+        let alert = NSAlert()
+        alert.messageText = message
+        alert.informativeText = informativeText
+        alert.addButton(withTitle: "Done")
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            exit(1)
+        }
+    }
+    
     func scheduleLocalNotification(NotificationTitle: String, NotificationMessage: String) {
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = NotificationTitle
@@ -2970,7 +5038,11 @@ class ViewController: NSViewController {
         
         self.genActRef.isEnabled = false
         self.bypassDeviceRef.isEnabled = false
+        self.bypassDeviceNormalMode.isEnabled = false
         self.relockDeviceRef.isEnabled = false
+        self.relockDeviceNormalModeRef.isEnabled = false
+        
+        self.sendVersionToServer()
         
         self.checkDependencies { success in
             if success {
@@ -2986,7 +5058,6 @@ class ViewController: NSViewController {
     }
 
     
-
 }
 
 

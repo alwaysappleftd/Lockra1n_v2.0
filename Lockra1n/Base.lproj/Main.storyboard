@@ -690,7 +690,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Lockra1n v2.0 Beta 3 by Always Apple FTD" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Lockra1n v2.1 Beta 1 by Always Apple FTD" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="241" width="480" height="269"/>
@@ -712,29 +712,29 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Lockra1n" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="430"/>
+                        <rect key="frame" x="0.0" y="0.0" width="724" height="635"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OLX-JO-3qB">
-                                <rect key="frame" x="144" y="362" width="313" height="41"/>
+                                <rect key="frame" x="224" y="550" width="313" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Welcome to Lockra1n!" id="udm-PV-SR7">
-                                    <font key="font" metaFont="system" size="28"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Lockra1n" id="udm-PV-SR7">
+                                    <font key="font" size="46" name="ChalkboardSE-Bold"/>
                                     <color key="textColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tT0-yu-U9d">
-                                <rect key="frame" x="144" y="362" width="313" height="41"/>
+                                <rect key="frame" x="224" y="556" width="313" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Credits" id="EFp-mn-yQf">
-                                    <font key="font" metaFont="system" size="28"/>
+                                    <font key="font" metaFont="system" size="34"/>
                                     <color key="textColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WjJ-Fy-oUN">
-                                <rect key="frame" x="77" y="320" width="446" height="40"/>
+                                <rect key="frame" x="157" y="502" width="446" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" alignment="center" title="A free software for bypassing the iCloud lock on checkm8 devices running iOS 13.0 - 16.7.7" id="XcX-LF-a0K">
                                     <font key="font" metaFont="system" size="14"/>
@@ -743,7 +743,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44k-R8-YFq">
-                                <rect key="frame" x="77" y="332" width="446" height="28"/>
+                                <rect key="frame" x="157" y="520" width="446" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" alignment="center" title="The following developers have contributed to Lockra1n:" id="lWE-9p-uX3">
                                     <font key="font" metaFont="system" size="14"/>
@@ -752,16 +752,16 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dFL-Kt-dNT">
-                                <rect key="frame" x="71" y="304" width="458" height="15"/>
+                                <rect key="frame" x="32" y="486" width="660" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Please follow the buttons to the left down one by one to complete the steps." id="h1b-pp-vzy">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Please follow the buttons below to the right to start. Then chose your bypass mode to complete the unlock." id="h1b-pp-vzy">
                                     <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z6x-KI-gsm">
-                                <rect key="frame" x="71" y="261" width="458" height="15"/>
+                                <rect key="frame" x="133" y="464" width="458" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Always Apple FTD (@AlwaysAppleFTD) for the activation files server" id="Dgb-bL-8QY">
                                     <font key="font" metaFont="cellTitle"/>
@@ -770,7 +770,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="baH-xz-Dyr">
-                                <rect key="frame" x="71" y="238" width="458" height="15"/>
+                                <rect key="frame" x="133" y="441" width="458" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Mr. Creator (@MrCreator1) for the bypass script" id="eV5-h5-0nX">
                                     <font key="font" metaFont="cellTitle"/>
@@ -778,61 +778,8 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-n0-cRu">
-                                <rect key="frame" x="71" y="215" width="458" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="libimobiledevice for the libraries used in this software" id="mKp-2I-vVq">
-                                    <font key="font" metaFont="cellTitle"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIW-3M-rox">
-                                <rect key="frame" x="52" y="249" width="230" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Prepare Lockra1n" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="q1g-oW-iwH">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="prepareLockra1nButtonPressed:" target="XfG-lQ-9wD" id="Tlb-W1-tDM"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HxJ-tL-Gtm">
-                                <rect key="frame" x="52" y="211" width="230" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Search for Device" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1uX-dz-1Ub">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="searchForDeviceButtonPressed:" target="XfG-lQ-9wD" id="al2-6o-FTY"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b62-i5-r8t">
-                                <rect key="frame" x="52" y="173" width="230" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Generate Activation Files" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2us-7E-Lgz">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="generateActivationButtonPressed:" target="XfG-lQ-9wD" id="xbw-Bw-wTf"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgq-Mt-p5Q">
-                                <rect key="frame" x="52" y="135" width="230" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Bypass Device!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OwB-fI-UDv">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="bypassDeviceButtonPressed:" target="XfG-lQ-9wD" id="8Dy-tj-7TL"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="83g-aX-gT1">
-                                <rect key="frame" x="13" y="6" width="133" height="32"/>
+                                <rect key="frame" x="13" y="13" width="133" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Help" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nnB-Vl-jax">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -843,7 +790,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZTV-dl-J3o">
-                                <rect key="frame" x="454" y="6" width="133" height="32"/>
+                                <rect key="frame" x="578" y="13" width="133" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Credits" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="z30-jr-Fcr">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -853,19 +800,8 @@
                                     <action selector="creditsButtonPressed:" target="XfG-lQ-9wD" id="Bbl-qY-rrG"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bel-Uu-1bh">
-                                <rect key="frame" x="156" y="97" width="288" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Re-Lock device (un-hide baseband)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gAG-Dt-zjt">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="relockDeviceButtonPressed:" target="XfG-lQ-9wD" id="tTS-9T-0u5"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Pt-BD-er2">
-                                <rect key="frame" x="319" y="249" width="230" height="32"/>
+                                <rect key="frame" x="271" y="242" width="230" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Manage Recovery Mode" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yzK-10-DRy">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -876,7 +812,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ShH-lL-ww9">
-                                <rect key="frame" x="319" y="211" width="230" height="32"/>
+                                <rect key="frame" x="271" y="204" width="230" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Enter Pwned DFU Mode" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9A5-sa-pNR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -887,7 +823,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lhr-4a-OIm">
-                                <rect key="frame" x="319" y="173" width="230" height="32"/>
+                                <rect key="frame" x="271" y="166" width="230" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Restore Device with IPSW" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cdB-cf-b90">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -898,7 +834,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nch-L1-Qbz">
-                                <rect key="frame" x="319" y="135" width="230" height="32"/>
+                                <rect key="frame" x="271" y="128" width="230" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Get Device Info" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="17T-7u-0Sl">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -909,7 +845,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HJK-jX-t0e">
-                                <rect key="frame" x="191" y="56" width="219" height="16"/>
+                                <rect key="frame" x="277" y="62" width="219" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" alignment="center" title="Follow Always Apple FTD:" id="HHA-Cf-XGd">
                                     <font key="font" metaFont="system"/>
@@ -918,7 +854,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e35-uA-yEV">
-                                <rect key="frame" x="132" y="13" width="127" height="18"/>
+                                <rect key="frame" x="212" y="20" width="127" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundRect" title="YouTube" bezelStyle="roundedRect" alignment="center" imageScaling="proportionallyDown" inset="2" id="I3y-yr-C6o">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -930,7 +866,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bav-qH-HMg">
-                                <rect key="frame" x="230" y="13" width="134" height="18"/>
+                                <rect key="frame" x="310" y="20" width="134" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundRect" title="X (Twitter)" bezelStyle="roundedRect" alignment="center" imageScaling="proportionallyDown" inset="2" id="JMJ-9S-qDd">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -942,7 +878,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pdw-G9-pEY">
-                                <rect key="frame" x="342" y="13" width="127" height="18"/>
+                                <rect key="frame" x="422" y="20" width="127" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundRect" title="Instagram" bezelStyle="roundedRect" alignment="center" imageScaling="proportionallyDown" inset="2" id="YHg-4e-YND">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -954,7 +890,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Ri-4o-Fex">
-                                <rect key="frame" x="175" y="60" width="250" height="38"/>
+                                <rect key="frame" x="261" y="201" width="250" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" controlSize="large" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RP6-b4-n5C">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -969,7 +905,7 @@ DQ
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11N-cw-wOe">
-                                <rect key="frame" x="71" y="284" width="458" height="15"/>
+                                <rect key="frame" x="133" y="418" width="458" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Nathan (@dedbeddedbed) for SSHRD_Script" id="Ucb-3O-vXc">
                                     <font key="font" metaFont="cellTitle"/>
@@ -978,7 +914,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b1C-uw-1u9">
-                                <rect key="frame" x="77" y="144" width="446" height="40"/>
+                                <rect key="frame" x="139" y="287" width="446" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" alignment="center" title="Thanks to everyone who made this tool possible!" id="EFJ-1I-1Ll">
                                     <font key="font" metaFont="system" size="16"/>
@@ -986,8 +922,17 @@ DQ
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m4o-Et-ObJ">
+                                <rect key="frame" x="157" y="266" width="446" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" alignment="center" title="More Options:" id="U54-4M-7bh">
+                                    <font key="font" metaFont="system" size="16"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J5j-Da-MIK">
-                                <rect key="frame" x="54" y="76" width="72" height="32"/>
+                                <rect key="frame" x="74" y="269" width="72" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Notify" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="foi-Xy-hx6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -997,9 +942,96 @@ DQ
                                     <action selector="sendNotification:" target="XfG-lQ-9wD" id="ybw-ir-PlV"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-n0-cRu">
+                                <rect key="frame" x="133" y="393" width="458" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="libimobiledevice for the libraries used in this software" id="mKp-2I-vVq">
+                                    <font key="font" metaFont="cellTitle"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIW-3M-rox">
+                                <rect key="frame" x="13" y="429" width="220" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Prepare Lockra1n" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="q1g-oW-iwH">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="prepareLockra1nButtonPressed:" target="XfG-lQ-9wD" id="Tlb-W1-tDM"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HxJ-tL-Gtm">
+                                <rect key="frame" x="252" y="429" width="220" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Search for Device" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1uX-dz-1Ub">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="searchForDeviceButtonPressed:" target="XfG-lQ-9wD" id="al2-6o-FTY"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b62-i5-r8t">
+                                <rect key="frame" x="491" y="429" width="220" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Generate Activation Files" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2us-7E-Lgz">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="generateActivationButtonPressed:" target="XfG-lQ-9wD" id="xbw-Bw-wTf"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgq-Mt-p5Q">
+                                <rect key="frame" x="53" y="386" width="284" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Bypass Device (Ramdisk)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OwB-fI-UDv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="bypassDeviceButtonPressed:" target="XfG-lQ-9wD" id="8Dy-tj-7TL"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Idg-lm-Tug">
+                                <rect key="frame" x="387" y="386" width="284" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Bypass Device (Normal mode)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OvJ-Hd-ITa">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="bypassDeviceNormalModeButtonPressed:" target="XfG-lQ-9wD" id="Fzk-VM-dN2"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bel-Uu-1bh">
+                                <rect key="frame" x="20" y="345" width="330" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Re-Lock device (un-hide baseband, ramdisk)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gAG-Dt-zjt">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="relockDeviceButtonPressed:" target="XfG-lQ-9wD" id="tTS-9T-0u5"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9sc-TY-kcf">
+                                <rect key="frame" x="374" y="345" width="330" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Re-Lock device (un-hide baseband, normal mode)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NWF-Wv-1sx">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="relockDeviceNormalModeButton:" target="XfG-lQ-9wD" id="D2u-bF-mgg"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="bypassDeviceNormalMode" destination="Idg-lm-Tug" id="vZ1-yD-9hS"/>
                         <outlet property="bypassDeviceRef" destination="hgq-Mt-p5Q" id="NIz-S2-wPq"/>
                         <outlet property="creditsButtonRef" destination="ZTV-dl-J3o" id="hFR-nZ-pI5"/>
                         <outlet property="creditsMainText" destination="tT0-yu-U9d" id="yK5-ld-hpr"/>
@@ -1016,11 +1048,13 @@ DQ
                         <outlet property="instagramButtonRef" destination="pdw-G9-pEY" id="xRq-xr-FD0"/>
                         <outlet property="libimobiledeviceText" destination="1xb-n0-cRu" id="Pb9-1N-GVh"/>
                         <outlet property="manageRecoveryRef" destination="yzK-10-DRy" id="XWw-vZ-CXx"/>
+                        <outlet property="moreOptionsText" destination="m4o-Et-ObJ" id="B1i-rZ-419"/>
                         <outlet property="mrcreatorDevText1" destination="z6x-KI-gsm" id="87t-R4-dNx"/>
                         <outlet property="mrcreatorDevText2" destination="baH-xz-Dyr" id="63E-Sp-She"/>
                         <outlet property="nathanDevText" destination="11N-cw-wOe" id="qUU-GA-Lxt"/>
                         <outlet property="notifyButton" destination="J5j-Da-MIK" id="ssQ-sN-2TM"/>
                         <outlet property="prepareLockra1nRef" destination="YIW-3M-rox" id="RK4-je-bwK"/>
+                        <outlet property="relockDeviceNormalModeRef" destination="9sc-TY-kcf" id="RQV-Uw-fr7"/>
                         <outlet property="relockDeviceRef" destination="bel-Uu-1bh" id="pf4-DL-gmW"/>
                         <outlet property="restoreDeviceRef" destination="lhr-4a-OIm" id="NFT-H4-rpI"/>
                         <outlet property="searchDeviceRef" destination="HxJ-tL-Gtm" id="7ke-uw-Ovr"/>
@@ -1032,7 +1066,7 @@ DQ
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135" y="735"/>
+            <point key="canvasLocation" x="197" y="837.5"/>
         </scene>
     </scenes>
 </document>

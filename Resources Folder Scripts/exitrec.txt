@@ -1,0 +1,17 @@
+Version: v2.0.0(36879969be71d56af062aa99be5f28ee482a12bc-309)
+img4tool version: 0.197-aca6cf005c94caf135023263cbb5c61a0081804f-RELEASE
+libipatcher version: 0.91-cb10d973d0af78cc55020d4cf1187c28fad0f2a0-RELEASE
+Odysseus for 32-bit support: yes
+Odysseus for 64-bit support: yes
+Exiting from recovery mode to normal mode
+Checking for updates...
+Futurerestore is up to date!
+futurerestore: failed with exception:
+[exception]:
+what=can't init, no device found
+
+code=20840507
+line=318
+file=/Users/runner/work/futurerestore/futurerestore/src/main.cpp
+commit count=309
+commit sha  =36879969be71d56af062aa99be5f28ee482a12bc

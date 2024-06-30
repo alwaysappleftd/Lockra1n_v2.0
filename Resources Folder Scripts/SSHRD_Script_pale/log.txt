@@ -1,0 +1,6 @@
+[*] Getting device info and pwning... this may take a second
+ - [0m[[0;90m06/21/24 20:59:49[0m] [1;36m<Info>[0m: [0;36mWaiting for devices[0m
+ - [0m[[0;90m06/21/24 20:59:49[0m] [1;36m<Info>[0m: [0;36mAbout to execute checkra1n[0m
+ - [0m[[0;90m06/21/24 21:00:48[0m] [1;36m<Info>[0m: [0;36mFound PongoOS USB Device[0m
+ - [0m[[0;90m06/21/24 21:00:55[0m] [1;36m<Info>[0m: [0;36mBooting Kernel...[0m
+[*] Device should now show text on screen

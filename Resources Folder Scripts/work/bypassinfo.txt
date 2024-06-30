@@ -1,0 +1,66 @@
+ActivationState: Unactivated
+BasebandKeyHashInformation: 
+ AKeyStatus: 2
+ SKeyStatus: 2
+BasebandRegionSKU: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+BasebandStatus: BBNotReady
+BasebandVersion: 
+BluetoothAddress: 14:d0:0d:a6:2a:7a
+BoardId: 8
+BrickState: true
+BuildVersion: 19H380
+CPUArchitecture: arm64
+CarrierBundleInfoArray[0]: 
+ChipID: 32784
+DeviceClass: iPhone
+DeviceColor: 1
+DeviceName: iPhone
+DieID: 7131270183190566
+EthernetAddress: 14:d0:0d:a6:4d:fd
+FirmwareVersion: iBoot-7459.140.15
+HardwareModel: D10AP
+HardwarePlatform: t8010
+HasSiDP: true
+HostAttached: true
+MLBSerialNumber: C7H91071BZMH6TFC0
+MobileSubscriberCountryCode: 
+MobileSubscriberNetworkCode: 
+ModelNumber: MNAC2
+NonVolatileRAM: 
+ auto-boot: dHJ1ZQ==
+ backlight-level: MTUxMQ==
+ backlight-nits: MHgwMGFjMzNkNQ==
+ boot-args: 
+ boot-breadcrumbs: NDAwNDAwMTEgNDAwNDAwMWMgMzAwMGQgPERPTkU+IDxDT01NSVQ+IDxCT09UPiAxYzAwMmIoMjAwNmQwMCkgMzAwMGMoNjk2MjY1NjMpIDQwMDQwMDFhIDQwMDQwMDEzIDQwMDQwMDExIDQwMDQwMDFjIDMwMDBkIDxET05FPiA8Q09NTUlUPiA8Qk9PVD4gMWMwMDJiKDIwMDZkMDApIDMwMDBjKDY5NjI2NTYzKSA0MDA0MDAxYSA0MDA0MDAxMyA0MDA0MDAxMSA0MDA0MDAxYyAzMDAwZCA8RE9ORT4gPENPTU1JVD4gPEJPT1Q+IDMwMDBjKDY5NjI2NTYzKSA0MDA0MDAxYSA0MDA0MDAxMyA0MDA0MDAxMSA0MDA0MDAxYyAzMDAwZCA8RE9ORT4gPENPTU1JVD4gPEJPT1Q+IDFjMDAyYigyMDA2ZDAwKSAzMDAwYyg2OTYyNjU2MykgNDAwNDAwMWEgNDAwNDAwMTMgNDAwNDAwMTEgNDAwNDAwMWMgMzAwMGQgPERPTkU+IDxDT01NSVQ+IDxCT09UPiAxYzAwMmIoMjAwNmQwMCkgMzAwMGMoNjk2MjY1NjMpIDQwMDQwMDFhIDQwMDQwMDEzIDQwMDQwMDExIDQwMDQwMDFjIDMwMDBkIDxET05FPiA8Q09NTUlUPiA8Qk9PVD4gMWMwMDJiKDIwMDZkMDApIDMwMDBjKDY5NjI2NTYzKSA0MDA0MDAxYSA0MDA0MDAxMyA0MDA0MDAxMSA0MDA0MDAxYyAzMDAwZCA8RE9ORT4gPENPTU1JVD4g
+ bootdelay: MA==
+ com.apple.System.tz0-size: MHhDMDAwMDA=
+ fm-activation-locked: Tk8=
+ fm-spstatus: Tk8=
+PairRecordProtectionClass: 4
+PartitionType: GUID_partition_scheme
+PasswordProtected: false
+ProductName: iPhone OS
+ProductType: iPhone9,1
+ProductVersion: 15.8.1
+ProductionSOC: true
+ProtocolVersion: 2
+ProximitySensorCalibration: f3oABTIAHgB4C5BBMIw2QgAAyEJVMGRBIZ8yQgAAFkNVMGRBIZ8yQgAAFkNmhkxD08FmQOxBkkSk2JFEjxqRRK5PkES7eAtC7usPQgaSF0IFxRlCAAAgQmaGC0MEliFCAABIQn3vykNQXcpDZrzVRVYOdEOv9joiAR8YGj3WeEWoNp1DuBqxRQMAAAAAAABB
+RegionInfo: LL/A
+SIMStatus: kCTSIMSupportSIMStatusNotReady
+SIMTrayStatus: kCTSIMSupportSIMTrayStatusUnknown
+SerialNumber: C7CYDD3QHG6W
+SoftwareBehavior: EQAAAAAAAAAAAAAAAAAAAA==
+SoftwareBundleVersion: 
+SupportedDeviceFamilies[1]: 
+ 0: 1
+TelephonyCapability: true
+TimeIntervalSince1970: 1710218887.180181
+TimeZone: Pacific/Honolulu
+TimeZoneOffsetFromUTC: -36000.000000
+TrustedHostAttached: true
+UniqueChipID: 7131270183190566
+UniqueDeviceID: 6885b6d86b51e7584aa42c95e098aa54e3a4d2d8
+UseRaptorCerts: true
+Uses24HourClock: false
+WiFiAddress: 14:d0:0d:a2:f0:09
+WirelessBoardSerialNumber: F20E15EFC35

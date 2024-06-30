@@ -1,0 +1,6 @@
+Starting Restore...
+Killing iproxy incase it's running...
+No matching processes belonging to you were found
+NOTE: Updated version data.
+Found device in DFU mode
+ERROR: Unable to discover device model

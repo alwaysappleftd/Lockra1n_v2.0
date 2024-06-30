@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>subscriber_account_ids</key>
+	<array>
+		<dict>
+			<key>second</key>
+			<string></string>
+			<key>first</key>
+			<string>1:kOne</string>
+		</dict>
+	</array>
+	<key>activation_gemini_support</key>
+	<string>1:kFalse</string>
+	<key>ne_config_state</key>
+	<false/>
+	<key>is_activation_policy_locked</key>
+	<string>0:kUnknown</string>
+	<key>kOperatorRoamingInfo_3GPP_RAT</key>
+	<integer>2</integer>
+	<key>imei_svns</key>
+	<array>
+		<dict>
+			<key>second</key>
+			<string>23</string>
+			<key>first</key>
+			<string>1:kOne</string>
+		</dict>
+	</array>
+	<key>kNextCarrierBundleUpdateCheck</key>
+	<date>2021-03-14T22:18:20Z</date>
+	<key>kPostponementActivationPushTokenRegFailedTimeStamp</key>
+	<string>Sunday, March 14, 2021 at 11:17:24 PM Central European Standard Time</string>
+	<key>kPostponementTicket</key>
+	<dict>
+		<key>ActivityURL</key>
+		<string>https://albert.apple.com/deviceservices/activity</string>
+		<key>WildcardTicket</key>
+		<string>MIIBlQIBATALBgkqhkiG9w0BAQUxYJ8/BADly9ifQAThEG8An0sUY1gCi1cw9TTN38feUhRb0ZDVqTKfh20HATNJAIGHBp+XPQwAAAAA7u7u7u7u7u+flz4EAAAAAJ+XPwQBAAAAn5dABAEAAACfl0wEAAAAAASBgMz1v0WlUNqA7tM5lzvyscdlVYNPrE+Xc4PBlmLSdnYkkiIbj/gLnTNOIpj3BbE3/uNsoizo+HP6IaD07jQBcEDWz4+3FWUH/6LmYKWWbWzq0cN1ZGola/FhVVoctR4ZlL4kdaztWxKQZT1LHrQ6J8q0aCBf2jwy0M00WEXEJ5Pao4GdMAsGCSqGSIb3DQEBAQOBjQAwgYkCgYEA7To/ZNHoIJzBUgY0734vsgl+ACxDQ+f4quvmSrPAtgDENSZwaVrHXpF+cRKBABqkDa00YcENx2dtS1tuHLKDNn1zMZLaZRpiK9UeiMPNZL6mlg12BWLwVjlFOGED8U6pfXwOw6D/FCDRgvyGBn7wsw8sEa7AdlYmMHGmkvwgOP0CAwEAAQ==</string>
+		<key>PhoneNumberNotificationURL</key>
+		<string>https://albert.apple.com/deviceservices/phoneHome</string>
+		<key>ActivationState</key>
+		<string>Activated</string>
+	</dict>
+	<key>kPostponementActivationPushTokenRegRetryCount</key>
+	<integer>13</integer>
+	<key>kPostponementTicketLock</key>
+	<false/>
+	<key>user_default_voice_slot</key>
+	<string>1:kOne</string>
+	<key>imeis</key>
+	<array>
+		<dict>
+			<key>second</key>
+			<string>359207079955280</string>
+			<key>first</key>
+			<string>1:kOne</string>
+		</dict>
+	</array>
+</dict>
+</plist>

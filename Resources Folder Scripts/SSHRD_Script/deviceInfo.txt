@@ -1,0 +1,70 @@
+ActivationState: Activated
+BasebandKeyHashInformation: 
+ AKeyStatus: 2
+ SKeyStatus: 2
+BasebandRegionSKU: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+BasebandStatus: BBNotReady
+BasebandVersion: 
+BluetoothAddress: c4:98:80:28:ba:1c
+BoardId: 4
+BootSessionID: 7E40912E-D0B0-4460-9579-7DCF04665044
+BrickState: false
+BuildVersion: 20F75
+CPUArchitecture: arm64
+CarrierBundleInfoArray[0]: 
+ChipID: 32789
+DeviceClass: iPhone
+DeviceColor: 2
+DeviceName: iPhone
+DieID: 5964429683990574
+EthernetAddress: c4:98:80:2a:1f:1b
+FirmwareVersion: iBoot-8422.122.1
+HardwareModel: D21AP
+HardwarePlatform: t8015
+HasSiDP: true
+HostAttached: true
+HumanReadableProductVersionString: 16.5.1
+MLBSerialNumber: FD183430JFQJ08XBE
+MobileSubscriberCountryCode: 
+MobileSubscriberNetworkCode: 
+ModelNumber: MQ9E2
+NonVolatileRAM: 
+ StartupMute: MQ==
+ auto-boot: dHJ1ZQ==
+ backlight-level: MTUwOQ==
+ backlight-nits: MHgwMGE1OTIyZQ==
+ boot-args: 
+ boot-breadcrumbs: MzAwMGQgPERPTkU+IDxDT01NSVQ+IDxCT09UPiAxYzAwMmIoMjAwNmQwMCkgMzAwMGMoNjk2MjY1NjMpIDQwMDQwMDFhIDQwMDQwMDEzIDQwMDQwMDExIDQwMDQwMDFjIDMwMDBkIDxET05FPiA8Q09NTUlUPiA8Qk9PVD4gMWMwMDJiKDIwMDZkMDApIDMwMDBjKDY5NjI2NTYzKSA0MDA0MDAxYSA0MDA0MDAxMyA0MDA0MDAxMSA0MDA0MDAxYyAzMDAwZCA8RE9ORT4gPENPTU1JVD4gPEJPT1Q+IDFjMDAyYigyMDA2ZDAwKSAzMDAwYyg2OTYyNjU2MykgNDAwNDAwMWEgNDAwNDAwMTMgNDAwNDAwMTEgNDAwNDAwMWMgMzAwMGQgPERPTkU+IDxDT01NSVQ+IDxCT09UPiAxYzAwMmIoMjAwNmQwMCkgMzAwMGMoNjk2MjY1NjMpIDQwMDQwMDFhIDQwMDQwMDEzIDQwMDQwMDExIDQwMDQwMDFjIDMwMDBkIDxET05FPiA8Q09NTUlUPiA8Qk9PVD4gMWMwMDJiKDIwMDZkMDApIDMwMDBjKDY5NjI2NTYzKSA0MDA0MDAxYSA0MDA0MDAxMyA0MDA0MDAxMSA0MDA0MDAxYyAzMDAwZCA8RE9ORT4gPENPTU1JVD4gPEJPT1Q+IDFjMDAyYigyMDA3ZDAwKSAzMDAwYyg2OTYyNjU2MykgNDAwNDAwMWEgNDAwNDAwMTMgNDAwNDAwMTEgNDAwNDAwMWMgMzAwMGQgPERPTkU+IDxDT01NSVQ+IA==
+ bootdelay: MA==
+ com.apple.System.tz0-size: MHgxN0NDMDAw
+ fm-activation-locked: Tk8=
+ fm-spstatus: Tk8=
+ obliteration: U2FmZU9ibGl0IGRvbmUgQDE2ODg4MDE4NjAsIEVycjo4OSwgQnk6Tm8gaW5mbyBmb3IgdW5rbm93biBNTyB0eXBlLCBBdHRlbXB0OiAyIFtnRjogMHgwMDAwMDAwMDAwMDAwMDAwXQ==
+ usbcfwflasherResult: Tm8gZXJyb3Jz
+PairRecordProtectionClass: 4
+PartitionType: GUID_partition_scheme
+PasswordProtected: false
+ProductName: iPhone OS
+ProductType: iPhone10,2
+ProductVersion: 16.5.1
+ProductionSOC: true
+ProtocolVersion: 2
+ProximitySensorCalibration: f3oABTIAHgCzFL5BzrmYQQAAyEIvaKVBNcFaQQAAFkMvaKVBNcFaQQAAFkNja1BDwA+wwHL2ikSWfIpEDQ2LRFgji0SvtMJBCfDFQUKf4kGm++NBAAAgQjZyF0P2gOhBAABIQryQtEMzAbRDFN/WRfVTZkPm6C4hAh4YGhhqckWgbI9DameXRQMAAAAAAABt
+RegionInfo: LL/A
+SIMStatus: kCTSIMSupportSIMStatusNotReady
+SIMTrayStatus: kCTSIMSupportSIMTrayStatusUnknown
+SerialNumber: FD3X826JJCM0
+SoftwareBehavior: EQAAAAAAAAAAAAAAAAAAAA==
+SoftwareBundleVersion: 
+SupportedDeviceFamilies[1]: 
+ 0: 1
+TelephonyCapability: true
+TimeIntervalSince1970: 1688927689.196540
+TimeZone: US/Pacific
+TimeZoneOffsetFromUTC: -25200.000000
+TrustedHostAttached: true
+UniqueChipID: 5964429683990574
+UniqueDeviceID: 017faf139c95f323970939315d6a6b0d0b4802e9
+UseRaptorCerts: true
+Uses24HourClock: false
+WiFiAddress: c4:98:80:23:cf:63

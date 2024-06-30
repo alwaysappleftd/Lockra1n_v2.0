@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>CFBundleDevelopmentRegion</key>
+        <string>English</string>
+        <key>CFBundleExecutable</key>
+        <string>checkra1n</string>
+        <key>CFBundleGetInfoString</key>
+        <string>beta 0.12.4, (c) 2019-2021 Kim Jong Cracks</string>
+        <key>CFBundleIconFile</key>
+        <string>checkra1n.icns</string>
+        <key>CFBundleIdentifier</key>
+        <string>kim.cracksby.checkra1n</string>
+        <key>CFBundleInfoDictionaryVersion</key>
+        <string>6.0</string>
+        <key>CFBundleName</key>
+        <string>checkra1n</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>CFBundleShortVersionString</key>
+        <string>beta 0.12.4</string>
+        <key>CFBundleSignature</key>
+        <string>YOLO</string>
+        <key>CFBundleVersion</key>
+        <string>beta 0.12.4</string>
+        <key>NSHumanReadableCopyright</key>
+        <string>(c) 2019-2021 Kim Jong Cracks</string>
+        <key>NSHighResolutionCapable</key>
+        <true/>
+    </dict>
+</plist>

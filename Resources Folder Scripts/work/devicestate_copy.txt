@@ -1,0 +1,1 @@
+ERROR: Please accept the trust dialog on the screen of device faf0c203c50eeaf2c292e1479de6705a82299752, then attempt to pair again.
